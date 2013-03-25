@@ -1,0 +1,21 @@
+Source: dorfmap-deb
+Section: admin
+Priority: optional
+Maintainer: Daniel Friesel <derf@chaosdorf.de>
+Uploaders: Daniel Friesel <derf@chaosdorf.de>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.9.2
+Homepage: http://github.com/chaosdorf/dorfmap-deb
+Vcs-Git: http://github.com/chaosdorf/dorfmap-deb.git
+Vcs-Browser: http://github.com/chaosdorf/dorfmap-deb
+
+Package: dorfmap-deb
+Architecture: all
+Depends: ${misc:Depends},
+ etckeeper,
+ git-core,
+ htop,
+ sudo,
+ vim,
+ zsh
+Description: Helpers for the dorfmap service
