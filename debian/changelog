@@ -1,5 +1,7 @@
-dorfmap-deb (0.01) UNRELEASED; urgency=low
+dorfmap-deb (0.01) unstable; urgency=low
 
   * Initial release
+  * preparations
+  * add some helper files
 
- -- Daniel Friesel <derf@chaosdorf.de>  Mon, 25 Mar 2013 13:18:35 +0100
+ -- Daniel Friesel <derf@chaosdorf.de>  Mon, 25 Mar 2013 13:38:06 +0100
