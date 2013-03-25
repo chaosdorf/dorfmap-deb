@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ -e /tmp/is_shutdown ]; then
+	echo 0 > /sys/class/gpio/gpio17/value
+	echo 0 > /sys/class/gpio/gpio2/value
+else
+	if [ -e /tmp/automatic_light ]; then
+		is_sundown -o -d 20 > /sys/class/gpio/gpio17/value
+	else
+		echo 0 > /sys/class/gpio/gpio17/value
+	fi
+	is_sundown -o -d 90 > /sys/class/gpio/gpio2/value
+fi
+
+is_sundown -o -d 90 > /sys/class/gpio/gpio24/value

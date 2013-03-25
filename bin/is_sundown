@@ -1,0 +1,93 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use 5.010;
+
+use Astro::Sunrise;
+use DateTime;
+use DateTime::Duration;
+use Getopt::Std;
+
+our $VERSION = '0.0';
+
+my %opts;
+getopts( 'd:ov', \%opts );
+
+my $now = DateTime->now( time_zone => 'Europe/Berlin' );
+my $delta = DateTime::Duration->new( minutes => $opts{d} || 0 );
+
+my ( $rise_str, $set_str )
+  = sunrise( $now->year, $now->month, $now->day, 6.47, 51.14,
+	$now->offset / 3600,
+	$now->is_dst );
+
+my ( $rise_h, $rise_m ) = ( $rise_str =~ m{(..):(..)} );
+my ( $set_h,  $set_m )  = ( $set_str  =~ m{(..):(..)} );
+
+my $sunrise = $now->clone->set(
+	hour   => $rise_h,
+	minute => $rise_m,
+);
+
+my $sunset = $now->clone->set(
+	hour   => $set_h,
+	minute => $set_m,
+);
+
+$sunrise->add_duration($delta);
+$sunset->subtract_duration($delta);
+
+if ( $opts{v} ) {
+	say 'rise at ' . $sunrise->hms;
+	say 'now is ' . $now->hms;
+	say 'set at ' . $sunset->hms;
+}
+
+if ( $opts{o} ) {
+	say( ( $now < $sunrise or $now > $sunset ) ? '1' : '0' );
+	exit 0;
+}
+
+if ( $now < $sunrise or $now > $sunset ) {
+	exit 0;
+}
+exit 1;
+
+__END__
+
+=head1 NAME
+
+=head1 SYNOPSIS
+
+=head1 VERSION
+
+=head1 DESCRIPTION
+
+=head1 OPTIONS
+
+=over
+
+=back
+
+=head1 EXIT STATUS
+
+=head1 CONFIGURATION
+
+None.
+
+=head1 DEPENDENCIES
+
+=over
+
+=back
+
+=head1 BUGS AND LIMITATIONS
+
+=head1 AUTHOR
+
+Copyright (C) 2012 by Daniel Friesel E<lt>derf@finalrewind.orgE<gt>
+
+=head1 LICENSE
+
+  0. You just DO WHAT THE FUCK YOU WANT TO.

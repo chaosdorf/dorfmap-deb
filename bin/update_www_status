@@ -1,0 +1,26 @@
+#!/bin/sh
+
+cat /sys/class/thermal/thermal_zone0/temp > /srv/www/temperature
+
+if [ -e /tmp/is_shutdown ]; then
+	echo 1 > /srv/www/is_shutdown
+else
+	echo 0 > /srv/www/is_shutdown
+fi
+
+if [ -e /tmp/online_guests ]; then
+	if [ "$(cat /tmp/online_guests)" -le 5 \
+			-a "$(cat /srv/www/doorstatus)" = open ]; then
+		warnblink &
+	fi
+fi
+
+#AMPSTATUS="$(echo psstatus | nc hyperion 1338)"
+#
+#if echo "${AMPSTATUS}" | fgrep -q ': on'; then
+#	echo 1 > /srv/www/amp.status
+#elif echo "${AMPSTATUS}" | fgrep -q ': off'; then
+#	echo 0 > /srv/www/amp.status
+#else
+	echo  -1 > /srv/www/amp.status
+#fi

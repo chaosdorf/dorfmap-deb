@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Daniel Friesel <derf@chaosdorf.de>
 Uploaders: Daniel Friesel <derf@chaosdorf.de>
 Build-Depends: debhelper (>= 7)
-Standards-Version: 3.9.2
+Standards-Version: 3.9.4
 Homepage: http://github.com/chaosdorf/dorfmap-deb
 Vcs-Git: http://github.com/chaosdorf/dorfmap-deb.git
 Vcs-Browser: http://github.com/chaosdorf/dorfmap-deb
