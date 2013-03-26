@@ -8,11 +8,18 @@ else
 	echo 0 > /srv/www/is_shutdown
 fi
 
-if [ -e /tmp/online_guests ]; then
-	if [ "$(cat /tmp/online_guests)" -le 5 \
-			-a "$(cat /srv/www/doorstatus)" = open ]; then
-		warnblink &
+
+if [ "$(cat /srv/www/doorstatus)" = open ]; then
+	echo 1 > /sys/class/gpio/gpio22/value
+	if [ -e /tmp/online_guests ]; then
+		if [ "$(cat /tmp/online_guests)" -le 3 ]; then
+			warnblink red &
+		elif [ "$(cat /tmp/online_guests)" -le 6 ]; then
+			warnblink yellow &
+		fi
 	fi
+else
+	echo 0 > /sys/class/gpio/gpio22/value
 fi
 
 #AMPSTATUS="$(echo psstatus | nc hyperion 1338)"

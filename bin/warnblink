@@ -1,8 +1,14 @@
 #!/bin/sh
 
+GPIO=4
+
+if [ "$1" = yellow ]; then
+	GPIO=3
+fi
+
 for i in $(seq 1 57); do
-	echo 1 > /sys/class/gpio/gpio4/value
+	echo 1 > /sys/class/gpio/gpio"${GPIO}"/value
 	sleep 0.5
-	echo 0 > /sys/class/gpio/gpio4/value
+	echo 0 > /sys/class/gpio/gpio"${GPIO}"/value
 	sleep 0.5
 done
