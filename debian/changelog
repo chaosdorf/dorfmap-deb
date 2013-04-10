@@ -1,3 +1,12 @@
+dorfmap-deb (0.02) unstable; urgency=low
+
+  * use entire LED row for door status
+  * avrshiftd replaced by si2c-bitwrite
+  * gpio pin changes
+  * is_sundown: no need to specify DST, it's already included in the offset
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Wed, 10 Apr 2013 08:41:52 +0200
+
 dorfmap-deb (0.01) unstable; urgency=low
 
   * Initial release
