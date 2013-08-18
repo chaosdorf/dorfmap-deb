@@ -12,9 +12,9 @@ fi
 if [ "$(cat /srv/www/doorstatus)" = open ]; then
 	echo 1 > /sys/class/gpio/gpio4/value
 	if [ -e /tmp/online_guests ]; then
-		if [ "$(cat /tmp/online_guests)" -le 3 ]; then
+		if [ "$(cat /tmp/online_guests)" -le 4 ]; then
 			warnblink red &
-		elif [ "$(cat /tmp/online_guests)" -le 6 ]; then
+		elif [ "$(cat /tmp/online_guests)" -le 8 ]; then
 			warnblink yellow &
 		fi
 	fi
