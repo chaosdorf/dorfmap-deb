@@ -34,8 +34,11 @@ if [ -e /tmp/is_shutdown ]; then
 	rm -f /tmp/logo_is_on /tmp/logo_is_off
 else
 	if [ -e /tmp/automatic_outdoor ]; then
-		is_sundown -o -d $(cat /etc/automatic_light_control/outdoor) \
-			> /sys/class/gpio/gpio17/value
+		if is_sundown -d $(cat /etc/automatic_light_control/outdoor); then
+			echo 1 > /sys/class/gpio/gpio17/value
+		else
+			echo 0 > /sys/class/gpio/gpio17/value
+		fi
 	else
 		echo 0 > /sys/class/gpio/gpio17/value
 	fi
@@ -49,8 +52,11 @@ else
 fi
 
 if [ -e /tmp/automatic_schaufenster ]; then
-	is_sundown -o -d $(cat /etc/automatic_light_control/schaufenster) \
-		> /tmp/feedback2/bin1
+	if is_sundown -d $(cat /etc/automatic_light_control/schaufenster); then
+		echo 1 > /tmp/feedback2/bin1
+	else
+		echo 0 > /tmp/feedback2/bin1
+	fi
 else
 	echo 0 > /tmp/feedback2/bin1
 fi
