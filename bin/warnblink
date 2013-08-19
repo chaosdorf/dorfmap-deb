@@ -6,7 +6,7 @@ if [ "$1" = yellow ]; then
 	CTLFILE=pwm1
 fi
 
-for i in $(seq 1 57); do
+for i in $(seq 1 33); do
 	echo 255 > /tmp/feedback2/${CTLFILE}
 	avrshift-feedback
 	sleep 0.5
