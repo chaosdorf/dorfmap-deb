@@ -12,12 +12,17 @@ else
 	fi
 	if [ -e /tmp/automatic_logo ]; then
 		is_sundown -o -d $(cat /etc/automatic_light_control/logo) \
-		> /tmp/feedback2/pwm2
+			> /tmp/feedback2/pwm2
 	else
 		echo 0 > /tmp/feedback2/pwm2
 	fi
 fi
 
-is_sundown -o -d 90 > /tmp/feedback2/bin1
+if [ -e /tmp/automatic_schaufenster ]; then
+	is_sundown -o -d $(cat /etc/automatic_light_control/schaufenster) \
+		> /tmp/feedback2/bin1
+else
+	echo 0 > /tmp/feedback2/bin1
+fi
 
 avrshift-feedback
