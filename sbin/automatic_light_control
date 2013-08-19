@@ -1,8 +1,37 @@
 #!/bin/sh
 
+logo_on() {
+	rm -f /tmp/logo_is_off
+	if [ -e /tmp/logo_is_on ]; then
+		echo 255 > /tmp/feedback2/pwm2
+	else
+		touch /tmp/logo_is_on
+		for i in 0 1 2 3 4 5 6 7 8 16 32 64 128 255; do
+			echo $i > /tmp/feedback2/pwm2
+			avrshift-feedback
+			sleep 5
+		done
+	fi
+}
+
+logo_off() {
+	rm -f /tmp/logo_is_on
+	if [ -e /tmp/logo_is_off ]; then
+		echo 0 > /tmp/feedback2/pwm2
+	else
+		touch /tmp/logo_is_off
+		for i in 255 128 64 32 16 8 7 6 5 4 3 2 1 0; do
+			echo $i > /tmp/feedback2/pwm2
+			avrshift-feedback
+			sleep 5
+		done
+	fi
+}
+
 if [ -e /tmp/is_shutdown ]; then
 	echo 0 > /sys/class/gpio/gpio17/value
 	echo 0 > /tmp/feedback2/pwm2
+	rm -f /tmp/logo_is_on /tmp/logo_is_off
 else
 	if [ -e /tmp/automatic_outdoor ]; then
 		is_sundown -o -d $(cat /etc/automatic_light_control/outdoor) \
@@ -11,10 +40,10 @@ else
 		echo 0 > /sys/class/gpio/gpio17/value
 	fi
 	if [ -e /tmp/automatic_logo ]; then
-		is_sundown -o -d $(cat /etc/automatic_light_control/logo) \
-			> /tmp/feedback2/pwm2
+		if is_sundown -d $(cat /etc/automatic_light_control/logo); then
+			logo_on
 	else
-		echo 0 > /tmp/feedback2/pwm2
+		logo_off
 	fi
 fi
 
