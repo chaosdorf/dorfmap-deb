@@ -11,10 +11,10 @@ fi
 
 if [ "$(cat /srv/www/doorstatus)" = open ]; then
 	echo 1 > /tmp/feedback2/bin5
-	if [ -e /tmp/online_guests ]; then
-		if [ "$(cat /tmp/online_guests)" -le 4 ]; then
+	if [ -e /srv/www/stored.online_guests ]; then
+		if [ "$(cat /srv/www/stored.online_guests)" -le 4 ]; then
 			warnblink red &
-		elif [ "$(cat /tmp/online_guests)" -le 8 ]; then
+		elif [ "$(cat /srv/www/stored.online_guests)" -le 8 ]; then
 			warnblink yellow &
 		fi
 	fi
