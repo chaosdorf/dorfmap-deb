@@ -2,7 +2,7 @@
 
 if [ -e /tmp/is_shutdown ]; then
 	echo 0 > /sys/class/gpio/gpio17/value
-	echo 0 > /sys/class/gpio/gpio2/value
+	echo 0 > /tmp/feedback2/pwm2
 else
 	if [ -e /tmp/automatic_outdoor ]; then
 		is_sundown -o -d $(cat /etc/automatic_light_control/outdoor) \
@@ -12,10 +12,12 @@ else
 	fi
 	if [ -e /tmp/automatic_logo ]; then
 		is_sundown -o -d $(cat /etc/automatic_light_control/logo) \
-		> /sys/class/gpio/gpio2/value
+		> /tmp/feedback2/pwm2
 	else
-		echo 0 > /sys/class/gpio/gpio2/value
+		echo 0 > /tmp/feedback2/pwm2
 	fi
 fi
 
-#is_sundown -o -d 90 > /sys/class/gpio/gpio24/value
+is_sundown -o -d 90 > /tmp/feedback2/bin1
+
+avrshift-feedback

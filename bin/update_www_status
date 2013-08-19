@@ -10,7 +10,7 @@ fi
 
 
 if [ "$(cat /srv/www/doorstatus)" = open ]; then
-	echo 1 > /sys/class/gpio/gpio4/value
+	echo 1 > /tmp/feedback2/bin5
 	if [ -e /tmp/online_guests ]; then
 		if [ "$(cat /tmp/online_guests)" -le 4 ]; then
 			warnblink red &
@@ -19,15 +19,5 @@ if [ "$(cat /srv/www/doorstatus)" = open ]; then
 		fi
 	fi
 else
-	echo 0 > /sys/class/gpio/gpio4/value
+	echo 0 > /tmp/feedback2/bin5
 fi
-
-#AMPSTATUS="$(echo psstatus | nc hyperion 1338)"
-#
-#if echo "${AMPSTATUS}" | fgrep -q ': on'; then
-#	echo 1 > /srv/www/amp.status
-#elif echo "${AMPSTATUS}" | fgrep -q ': off'; then
-#	echo 0 > /srv/www/amp.status
-#else
-	echo  -1 > /srv/www/amp.status
-#fi

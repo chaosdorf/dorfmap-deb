@@ -1,14 +1,19 @@
 #!/bin/sh
 
-GPIO=3
+CTLFILE=pwm0
 
 if [ "$1" = yellow ]; then
-	GPIO=22
+	CTLFILE=pwm1
 fi
 
 for i in $(seq 1 57); do
-	echo 1 > /sys/class/gpio/gpio"${GPIO}"/value
+	echo 255 > /tmp/feedback2/${CTLFILE}
+	avrshift-feedback
 	sleep 0.5
-	echo 0 > /sys/class/gpio/gpio"${GPIO}"/value
+	echo 16 > /tmp/feedback2/${CTLFILE}
+	avrshift-feedback
 	sleep 0.5
 done
+
+echo 0 > /tmp/feedback2/${CTLFILE}
+avrshift-feedback
