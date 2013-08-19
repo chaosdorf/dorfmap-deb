@@ -42,6 +42,7 @@ else
 	if [ -e /tmp/automatic_logo ]; then
 		if is_sundown -d $(cat /etc/automatic_light_control/logo); then
 			logo_on
+		fi
 	else
 		logo_off
 	fi
