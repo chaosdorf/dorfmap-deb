@@ -1,0 +1,22 @@
+#!/bin/sh
+
+CLOCKMODE="$1"
+
+case "${CLOCKMODE}" in
+	date)
+	date '+%d.%m.' | flock -n /tmp/avrshift.lock /usr/local/bin/si2c-charwrite 8 11 "$2" "$3"
+	;;
+	clock)
+	date '+%H%M%H.%M' | flock -n /tmp/avrshift.lock /usr/local/bin/si2c-charwrite 8 11 "$2" "$3"
+	;;
+	hosts)
+	GUESTS="$(curl -s -m 4 http://feedback/stored.online_guests)"
+	OHOSTS="$(curl -s -m 4 http://feedback/stored.online_hosts)"
+	printf "dhcpdhcp%04d%04d%04d%04d%04d%04d\n" "${OHOSTS}" "${OHOSTS}" "${OHOSTS}" "${GUESTS}" "${GUESTS}" "${GUESTS}" \
+		| flock -n /tmp/avrshift.lock /usr/local/bin/si2c-charwrite 8 11 "$2" "$3"
+	;;
+	*)
+	echo "${CLOCKMODE}" | flock -n /tmp/avrshift.lock /usr/local/bin/si2c-charwrite 8 11 "$2" "$3"
+	;;
+esac
+

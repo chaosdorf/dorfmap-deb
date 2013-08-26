@@ -1,0 +1,4 @@
+#!/bin/sh
+
+update_clock "$(cat /tmp/feedback1/7segment2.mode)" 0 4
+update_clock "$(cat /tmp/feedback1/7segment3.mode)" 0 5
