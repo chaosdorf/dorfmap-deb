@@ -3,7 +3,7 @@
 cd /tmp/feedback1
 ( cat 1 2 3 4 5 6 7 8 9 10 11 12 13; echo "0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n0" ) | si2c-bitwrite 8 11
 cd /tmp/feedback2
-( echo $(( ( $(cat bin1) << 1 ) | ( $(cat bin5) << 5 ) | ( $(cat bin6) << 6 ) ));
+( echo $(( ( $(cat bin1) << 1 ) | ( $( cat bin3) << 3 ) | ( $(cat bin5) << 5 ) | ( $(cat bin6) << 6 ) ));
 cat pwm0 pwm1 pwm2; echo "0\n6" ) | si2c-bytewrite 8 11
 cd /tmp/feedback3
 ( cat 1 2 3 4 5 6 7 8 9 10 11 12; echo "0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1" ) | si2c-bitwrite 8 11
