@@ -22,6 +22,19 @@ case "${CLOCKMODE}" in
 		OHOSTS="$(curl -s -m 4 http://feedback/stored.online_hosts)"
 		propagate $(printf "dhcpdhcp%04d%04d%04d%04d%04d%04d\n" "${OHOSTS}" "${OHOSTS}" "${OHOSTS}" "${GUESTS}" "${GUESTS}" "${GUESTS}") "$2" "$3"
 	;;
+	power)
+		(
+		for i in 0 20 40; do
+			PWR=$(printf "%4d" "$(cat /srv/www/flukso/60)")
+			if [ "${PWR}" -gt 9999 ]; then
+				PWR=9999
+			fi
+			propagate "${PWR}" "$2" "$3"
+			sleep 18
+		done
+		) &
+		sleep 2
+	;;
 	*)
 		propagate "${CLOCKMODE}" "$2" "$3"
 	;;
