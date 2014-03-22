@@ -10,7 +10,7 @@ for i in $(seq 1 33); do
 	echo 255 > /tmp/feedback2/${CTLFILE}
 	avrshift-feedback
 	sleep 0.5
-	echo 16 > /tmp/feedback2/${CTLFILE}
+	echo 8 > /tmp/feedback2/${CTLFILE}
 	avrshift-feedback
 	sleep 0.5
 done
