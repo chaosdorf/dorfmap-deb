@@ -4,7 +4,7 @@ CLOCKMODE="$1"
 
 propagate() {
 	if [ "$2" = donationprint ]; then
-		echo "charwritelolwat\n$1" | nc donationprint 1337
+		echo "charwritelolwat\n$1" | nc -w 5 donationprint 1337
 	else
 		echo "$1" | flock -n /tmp/avrshift.lock /usr/local/bin/si2c-charwrite 8 11 "$2" "$3"
 	fi
@@ -26,8 +26,10 @@ case "${CLOCKMODE}" in
 		(
 		for i in 0 20 40; do
 			PWR=$(printf "%4d" "$(cat /srv/www/flukso/60)")
-			if [ "${PWR}" -gt 9999 ]; then
-				PWR=9999
+			if [ "${PWR}" -le 0 ]; then
+				PWR='--------        '
+			elif [ "${PWR}" -gt 9999 ]; then
+				PWR='9999    '
 			fi
 			propagate "${PWR}" "$2" "$3"
 			sleep 18
