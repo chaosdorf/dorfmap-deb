@@ -1,0 +1,45 @@
+#!/bin/sh
+
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+	cat <<'EOF'
+graph_title Online Hosts
+graph_args -l 0
+graph_vlabel Online Hosts
+graph_category network
+graph_info This graph shows the number of pingable hosts
+hosts.label Online Hosts
+hosts.draw LINE2
+hosts.info Current number of online hosts
+infra.label Critical Infrastructure
+infra.draw AREA
+infra.info Critical Infrastructure (Gateway, APs, Switches)
+oinfra.label Other Infrastructure
+oinfra.draw STACK
+oinfra.info Other Infrastructure (Music, Printer)
+virt.label Virtual
+virt.draw STACK
+virt.info Virtual Hosts on hyperion
+dynip.label DHCP
+dynip.draw STACK
+dynip.info Guest hosts in DHCP range
+static.label Static
+static.draw STACK
+static.info Hosts with a static (non-DHCP) IP
+EOF
+	exit 0
+fi
+
+echo "hosts.value $(cat /srv/www/bgdata/hosts_total)"
+echo "infra.value $(cat /srv/www/bgdata/hosts_critical_infra)"
+echo "oinfra.value $(cat /srv/www/bgdata/hosts_other_infra)"
+echo "virt.value $(cat /srv/www/bgdata/hosts_virtual)"
+echo "dynip.value $(cat /srv/www/bgdata/hosts_dynamic)"
+echo "static.value $(cat /srv/www/bgdata/hosts_static)"

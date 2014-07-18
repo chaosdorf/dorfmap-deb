@@ -31,7 +31,7 @@ def deploy(version):
     run("dpkg --install /root/dorfmap-deb_%s_all.deb" % version)
     run("rm /root/dorfmap-deb_%s_all.deb" % version)
 
-    for plugin in ['power', 'temperatures']:
+    for plugin in os.listdir('munin'):
         run('ln -fs /usr/share/munin/plugins/%s /etc/munin/plugins' % plugin)
 
     run("/etc/init.d/munin-node restart")
