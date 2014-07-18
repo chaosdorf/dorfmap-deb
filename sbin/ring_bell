@@ -1,0 +1,77 @@
+#!/bin/sh
+
+read line;
+
+if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
+
+	echo 1 > /tmp/feedback1/13
+	avrshift feedback1
+
+	ring_retrophone &
+
+	case $(( $$ % 4 )) in
+		0) BFILE=doorbell1.wav ;;
+		1) BFILE=doorbell2.m4a ;;
+		2) BFILE=doorbell1.wav ;;
+		3) BFILE=doorbell1.wav ;;
+	esac
+
+	(
+	sleep 12
+	echo 0 > /tmp/feedback1/13
+	avrshift feedback1
+	) &
+
+	flock -n /tmp/ringbellmp.lock mplayer -ao pulse:mpd /usr/local/share/"${BFILE}" < /dev/null > /dev/null 2> /dev/null || exit
+	for i in 1 2 3 4 5 6 7 8 9 10; do
+		echo 1 > /tmp/donationprint1/6
+		avrshift donationprint1
+		sleep 0.7
+		echo 0 > /tmp/donationprint1/6
+		avrshift donationprint1
+		sleep 0.7
+	done
+
+elif [ "${line}" = openannounce ]; then
+
+	echo open > /srv/www/doorstatus
+	echo 1 > /sys/class/gpio/gpio4/value
+
+	case $(( $$ % 2 )) in
+		0) AFILE=public.wav ;;
+		1) AFILE=public2.wav ;;
+	esac
+
+	mplayer -volume 100 -ao pulse:mpd /usr/local/share/"${AFILE}" < /dev/null > /dev/null 2> /dev/null
+
+	echo 1 > /tmp/donationprint1/5
+	echo 0 > /tmp/donationprint1/8
+	avrshift donationprint1
+
+elif [ "${line}" = closedannounce ]; then
+
+	echo closed > /srv/www/doorstatus
+	echo 0 > /sys/class/gpio/gpio4/value
+
+	case $(( $$ % 2 )) in
+		0) AFILE=private.wav ;;
+		1) AFILE=private2.wav ;;
+	esac
+
+	mplayer -volume 100 -ao pulse:mpd /usr/local/share/"${AFILE}" < /dev/null > /dev/null 2> /dev/null
+
+	echo 0 > /tmp/donationprint1/5
+	echo 1 > /tmp/donationprint1/8
+	avrshift donationprint1
+
+elif [ "${line}" = toggledoorlight ]; then
+
+	if [ "$(cat /tmp/donationprint1/5)" = 1 ]; then
+		echo 0 > /tmp/donationprint1/5
+		echo 1 > /tmp/donationprint1/8
+	fi
+	avrshift donationprint1
+
+fi
+
+exit 0

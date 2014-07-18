@@ -1,0 +1,27 @@
+#!/bin/sh
+
+astatus="$(echo "$(cat /etc/dorfmap/pw.powerswitch)" status | nc hyperion 1338)"
+
+if echo "$astatus" | fgrep 'port 0: on'; then
+	echo 1 > /srv/www/stored/amp.amp0
+else
+	echo 0 > /srv/www/stored/amp.amp0
+fi
+
+if echo "$astatus" | fgrep 'port 1: on'; then
+	echo 1 > /srv/www/stored/amp.amp1
+else
+	echo 0 > /srv/www/stored/amp.amp1
+fi
+
+if echo "$astatus" | fgrep 'port 2: on'; then
+	echo 1 > /srv/www/stored/amp.amp2
+else
+	echo 0 > /srv/www/stored/amp.amp2
+fi
+
+if echo "$astatus" | fgrep 'port 3: on'; then
+	echo 1 > /srv/www/stored/amp.amp3
+else
+	echo 0 > /srv/www/stored/amp.amp3
+fi

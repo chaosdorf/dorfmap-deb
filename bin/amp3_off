@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "$(cat /etc/dorfmap/pw.powerswitch)" off 3 | nc hyperion 1338
+amp_status

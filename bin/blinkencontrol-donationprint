@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /tmp/donationprint2
+(echo "$(cat /etc/dorfmap/pw.blinkencontrol)"; cat commands ) | nc donationprint 1337

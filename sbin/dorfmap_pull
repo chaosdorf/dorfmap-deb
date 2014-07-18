@@ -1,0 +1,10 @@
+#!/bin/sh
+
+cd /root/dorfmap
+mount -o remount,rw /
+git pull
+mount -o remount,ro /
+cd /srv/www/dorfmap
+git pull
+chown -R www-data:www-data .
+sudo -u www-data hypnotoad index.pl
