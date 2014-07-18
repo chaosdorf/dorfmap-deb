@@ -1,3 +1,4 @@
 automatic_light_control/* etc/automatic_light_control/
 bin/* usr/bin/
 sbin/* usr/sbin/
+munin/* usr/share/munin/plugins/

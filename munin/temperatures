@@ -1,0 +1,30 @@
+#!/bin/sh
+
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+
+	echo 'graph_title temperatures'
+	echo 'graph_vlabel temperatures'
+	echo 'graph_category sensors'
+	echo 'cpu.label CPU'
+
+	exit 0
+fi
+
+TEMP=$(( $(cat /sys/class/thermal/thermal_zone0/temp) / 1000 ))
+
+if [ "$TEMP" -lt 0 ]; then
+	return 0
+fi
+if [ "$TEMP" -gt 100000 ]; then
+	return 0
+fi
+
+echo cpu.value "$TEMP"
