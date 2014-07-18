@@ -5,5 +5,6 @@ MAILTO=root
 
 # m    h   dom mon dow user      command
   */6  *   *   *   *   root      nice automatic_light_control
+  */3  *   *   *   *   www-data  nice gather_bgdata
   *    *   *   *   *   www-data  update_www_status
   *    *   *   *   *   www-data  update_clocks
