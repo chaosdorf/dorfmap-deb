@@ -24,6 +24,20 @@ def etckeeper_commit(message):
 def etckeeper_done():
     run('etckeeper post-install')
 
+def update_configs():
+    for plugin in os.listdir('munin'):
+        if plugin != 'dorfmap_':
+            run('ln -fs /usr/share/munin/plugins/%s /etc/munin/plugins' % plugin)
+
+    for area in ['Hackcenter', 'Lounge', 'Schleuse']:
+        run('ln -fs /usr/share/munin/plugins/dorfmap_ /etc/munin/plugins/dorfmap_%s' % area)
+
+    put('lighttpd/lighttpd.conf', '/etc/lighttpd/lighttpd.conf')
+
+def restart_daemons():
+    run("/etc/init.d/lighttpd restart")
+    run("/etc/init.d/munin-node restart")
+
 def deploy(version):
     pre_cmd()
     etckeeper_check()
@@ -31,9 +45,8 @@ def deploy(version):
     run("dpkg --install /root/dorfmap-deb_%s_all.deb" % version)
     run("rm /root/dorfmap-deb_%s_all.deb" % version)
 
-    for plugin in os.listdir('munin'):
-        run('ln -fs /usr/share/munin/plugins/%s /etc/munin/plugins' % plugin)
+    update_configs()
 
-    run("/etc/init.d/munin-node restart")
     etckeeper_done()
     post_cmd()
+    restart_daemons()
