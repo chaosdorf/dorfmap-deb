@@ -32,6 +32,8 @@ def update_configs():
     for area in ['Hackcenter', 'Lounge', 'Schleuse']:
         run('ln -fs /usr/share/munin/plugins/dorfmap_ /etc/munin/plugins/dorfmap_%s' % area)
 
+    put('etc/inetd.conf', '/etc/inetd.conf')
+    put('etc/rc.local', '/etc/rc.local')
     put('lighttpd/lighttpd.conf', '/etc/lighttpd/lighttpd.conf')
 
 def restart_daemons():

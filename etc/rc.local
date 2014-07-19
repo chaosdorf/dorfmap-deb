@@ -1,0 +1,148 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+gpioexport() {
+	echo "$1" > /sys/class/gpio/export
+	echo out > /sys/class/gpio/gpio"$1"/direction
+	chmod 666 /sys/class/gpio/gpio"$1"/value
+}
+
+tar -C /tmp -xf /root/gnupg.tar.xz
+
+touch /tmp/automatic_logo /tmp/automatic_outdoor /tmp/is_shutdown
+chown www-data:www-data /tmp/automatic_logo /tmp/automatic_outdoor /tmp/is_shutdown
+
+#gpioexport  2
+#gpioexport  3
+#gpioexport  4
+gpioexport  8
+gpioexport 11
+gpioexport 17
+#gpioexport 18
+#gpioexport 22
+#gpioexport 23 (always on)
+#gpioexport 24
+#gpioexport 25 (always off)
+#gpioexport 27
+
+mkdir /tmp/donationprint1
+chmod 777 /tmp/donationprint1
+for i in $(seq 1 13); do
+	echo 0 > /tmp/donationprint1/$i
+	chmod 666 /tmp/donationprint1/$i
+done
+
+mkdir /tmp/donationprint2
+chmod 777 /tmp/donationprint2
+for i in commands; do
+	echo 0 > /tmp/donationprint2/$i
+	chmod 666 /tmp/donationprint2/$i
+done
+
+mkdir /tmp/feedback1
+chmod 777 /tmp/feedback1
+for i in $(seq 1 13); do
+	echo 0 > /tmp/feedback1/$i
+	chmod 666 /tmp/feedback1/$i
+done
+
+mkdir /tmp/feedback2
+chmod 777 /tmp/feedback2
+for i in bin1 bin3 bin5 bin6 pwm0 pwm1 pwm2; do
+	echo 0 > /tmp/feedback2/$i
+	chmod 666 /tmp/feedback2/$i
+done
+
+# circuit breaker feedback1
+echo 1 > /tmp/feedback2/bin3
+
+mkdir /tmp/feedback3
+chmod 777 /tmp/feedback3
+for i in $(seq 1 12); do
+	echo 0 > /tmp/feedback3/$i
+	chmod 666 /tmp/feedback3/$i
+done
+
+mkdir /tmp/feedback4
+chmod 777 /tmp/feedback4
+for i in commands; do
+	echo 0 > /tmp/feedback4/$i
+	chmod 666 /tmp/feedback4/$i
+done
+
+mkdir /tmp/feedback5
+chmod 777 /tmp/feedback5
+for i in $(seq 1 8); do
+	echo 0 > /tmp/feedback5/$i
+	chmod 666 /tmp/feedback5/$i
+done
+
+if [ -e /boot/dorfmapstate.tar.xz ]; then
+	tar -C / -xJf /boot/dorfmapstate.tar.xz
+	rm /boot/dorfmapstate.tar.xz
+else
+	( sleep 30; nice mplayer -volume 100 -ao pulse:mpd /usr/local/share/boot.m4a < /dev/null > /dev/null 2> /dev/null ) &
+fi
+
+echo clock > /tmp/donationprint1/7segment1.mode
+chmod 666 /tmp/donationprint1/7segment1.mode
+
+echo power > /tmp/feedback1/7segment2.mode
+chmod 666 /tmp/feedback1/7segment2.mode
+
+echo ' avg' > /tmp/feedback1/7segment3.mode
+chmod 666 /tmp/feedback1/7segment3.mode
+
+cd /srv/www
+git clone /root/dorfmap
+cd dorfmap
+chown -R www-data:www-data .
+sudo -u www-data hypnotoad index.pl || true
+
+if [ -e /boot/dorfmap-presets.db ]; then
+	cat /boot/dorfmap-presets.db > /srv/www/dorfmap/presets.db
+	chown www-data:www-data /srv/www/dorfmap/presets.db
+fi
+if [ -e /boot/dorfmap-blinkencontrol.db ]; then
+	cat /boot/dorfmap-blinkencontrol.db > /srv/www/dorfmap/blinkencontrol.db
+	chown www-data:www-data /srv/www/dorfmap/blinkencontrol.db
+fi
+
+
+nice ./bgdata start || true
+nice ./fluksod start || true
+
+avrshift-donationprint || true
+avrshift-feedback || true
+
+if [ "$(curl -s -m 4 http://door/status)" = open ]; then
+	echo openannounce | ring_bell
+else
+	echo closedannounce | ring_bell
+fi
+
+chown www-data:www-data /srv/www/doorstatus
+
+# sometimes the semaphore gets fucked, ipcrm fixes this
+(
+sleep 30
+ipcrm -s 0
+) &
+
+(
+sleep 240
+
+nice sudo -u www-data perl rdftohashdb
+) &
+
+exit 0

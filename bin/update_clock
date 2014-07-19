@@ -6,7 +6,7 @@ propagate() {
 	if [ "$2" = donationprint ]; then
 		echo "charwritelolwat\n$1" | nc -w 5 donationprint 1337
 	else
-		echo "$1" | flock -n /tmp/avrshift.lock /usr/local/bin/si2c-charwrite 8 11 "$2" "$3"
+		echo "$1" | flock -n /tmp/avrshift.lock si2c-charwrite 8 11 "$2" "$3"
 	fi
 }
 
