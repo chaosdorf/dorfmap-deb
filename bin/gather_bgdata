@@ -22,3 +22,5 @@ echo "${NVIRT}" > hosts_virtual
 echo "${NINFRA}" > hosts_infra
 echo "${NDHCP}" > hosts_dynamic
 echo "${NSTATIC}" > hosts_static
+
+curl -s -m 4 http://dorfmap/space_api.json > /srv/www/space_api.json
