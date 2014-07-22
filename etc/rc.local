@@ -94,6 +94,12 @@ else
 	( sleep 30; nice mplayer -volume 100 -ao pulse:mpd /usr/local/share/boot.m4a < /dev/null > /dev/null 2> /dev/null ) &
 fi
 
+# sometimes the semaphore breaks right after boot, ipcrm fixes this
+(
+sleep 30
+ipcrm -s 0
+) &
+
 echo clock > /tmp/donationprint1/7segment1.mode
 chmod 666 /tmp/donationprint1/7segment1.mode
 
@@ -132,12 +138,6 @@ else
 fi
 
 chown www-data:www-data /srv/www/doorstatus
-
-# sometimes the semaphore gets fucked, ipcrm fixes this
-(
-sleep 30
-ipcrm -s 0
-) &
 
 (
 sleep 240
