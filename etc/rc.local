@@ -87,6 +87,13 @@ for i in $(seq 1 8); do
 	chmod 666 /tmp/feedback5/$i
 done
 
+mkdir /tmp/feedback6
+chmod 777 /tmp/feedback6
+for i in bin0 bin1 bin2 bin3 bin4 bin5 bin6 bin7 pwm0 pwm1 pwm2; do
+	echo 0 > /tmp/feedback6/$i
+	chmod 666 /tmp/feedback6/$i
+done
+
 if [ -e /boot/dorfmapstate.tar.xz ]; then
 	tar -C / -xJf /boot/dorfmapstate.tar.xz
 	rm /boot/dorfmapstate.tar.xz
