@@ -20,7 +20,7 @@ cd /tmp/feedback5
 ;;
 feedback6)
 cd /tmp/feedback6
-( echo $(( ( $(cat bin0) ) | ( $(cat bin1) << 1 ) | ( $(cat bin2) << 2 ) | ( $( cat bin3) << 3 ) | ( $(cat bin4) << 4 ) | ( $(cat bin5) << 5 ) | ( $(cat bin6) << 6 ) | ( $(cat bin7) << 7 ) ));
+( echo $(( ( $(cat bin0) ) | ( $(cat bin1) << 1 ) | ( $( cat bin3) << 3 ) | ( $(cat bin5) << 5 ) | ( $(cat bin6) << 6 ) | ( $(cat bin7) << 7 ) ));
 cat pwm0 pwm1 pwm2; echo "0\n10" ) | si2c-bytewrite 8 11
 ;;
 donationprint1)
