@@ -29,7 +29,7 @@ def update_configs():
         if plugin != 'dorfmap_':
             run('ln -fs /usr/share/munin/plugins/%s /etc/munin/plugins' % plugin)
 
-    for area in ['Hackcenter', 'Lounge', 'Schleuse']:
+    for area in ['Hackcenter', 'Lounge', 'Nomspace', 'Schleuse']:
         run('ln -fs /usr/share/munin/plugins/dorfmap_ /etc/munin/plugins/dorfmap_%s' % area)
 
     put('etc/inetd.conf', '/etc/inetd.conf')
