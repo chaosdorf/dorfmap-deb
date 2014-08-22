@@ -11,6 +11,9 @@ propagate() {
 }
 
 case "${CLOCKMODE}" in
+	blank)
+		propagate '    ' "$2" "$3"
+	;;
 	date)
 		propagate "$(date '+%d.%m.')" "$2" "$3"
 	;;
