@@ -120,7 +120,7 @@ cd /srv/www
 git clone /root/dorfmap
 cd dorfmap
 chown -R www-data:www-data .
-sudo -u www-data hypnotoad index.pl || true
+nice -n -1 sudo -u www-data hypnotoad index.pl || true
 
 if [ -e /boot/dorfmap-presets.db ]; then
 	cat /boot/dorfmap-presets.db > /srv/www/dorfmap/presets.db
@@ -132,8 +132,8 @@ if [ -e /boot/dorfmap-blinkencontrol.db ]; then
 fi
 
 
-nice ./bgdata start || true
-nice ./fluksod start || true
+nice scripts/daemons/bgdata start || true
+nice scripts/daemons/fluksod start || true
 
 avrshift-donationprint || true
 avrshift-feedback || true
@@ -149,7 +149,7 @@ chown www-data:www-data /srv/www/doorstatus
 (
 sleep 240
 
-nice sudo -u www-data perl rdftohashdb
+nice sudo -u www-data perl scripts/setup/rdftohashdb
 ) &
 
 exit 0
