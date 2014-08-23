@@ -9,190 +9,51 @@ use 5.014;
 use utf8;
 
 use Encode qw(decode);
-use File::Slurp qw(read_file write_file);
+use JSON;    # automatically uses JSON::XS if available
+use LWP::Simple;
 
 no if $] >= 5.018, warnings => "experimental::smartmatch";
 
-my $locations   = {};
-my $coordinates = {};
-my $remotemap   = {};
-my $gpiomap     = {};
+my $raw_json = get('http://dorfmap/list/all.json');
+my $json     = from_json($raw_json);
 
-my $shutdownfile = '/tmp/is_shutdown';
-my $tsdir        = '/tmp/dorfmap-ts';
-
-my $auto_prefix  = '/etc/automatic_light_control';
-my $store_prefix = '/srv/www/stored';
-
-sub slurp {
-	my ($file) = @_;
-
-	my $content = read_file( $file, err_mode => 'quiet' );
-	if ( defined $content ) {
-		chomp $content;
-	}
-	return $content;
-}
-
-sub spew {
-	my ( $file, $value ) = @_;
-
-	return write_file( $file, { err_mode => 'quiet' }, $value );
-}
-
-sub gpio {
-	my ($index) = @_;
-
-	return "/sys/class/gpio/gpio${index}/value";
-}
-
-sub get_device {
-	my ($id) = @_;
-	my $state = -1;
-
-	if ( $coordinates->{$id}->{type} eq 'blinkenlight' ) {
-		$state = slurp( $remotemap->{$id} . '/commands' );
-		if ( $state =~ m{ ^ .* \n .* \n 0 \n 0 \n 0 \n }ox ) {
-			$state = 0;
-		}
-		else {
-			$state = 1;
-		}
-	}
-	elsif ( exists $gpiomap->{$id} and -e $gpiomap->{$id} ) {
-		$state = slurp( $gpiomap->{$id} );
-	}
-	elsif ( exists $remotemap->{$id} and -e $remotemap->{$id} ) {
-		$state = slurp( $remotemap->{$id} );
-	}
-	elsif ( $id =~ m{^amp} ) {
-		$id =~ s{ [ab] $ }{}ox;
-		$state = slurp("${store_prefix}/amp.${id}");
-	}
-
-	return $state;
-}
-
-sub load_coordinates {
-	my $ccontent = slurp('/srv/www/dorfmap/coordinates');
-	$ccontent =~ s{\\\n}{}gs;
-	my @lines = split( /\n/, $ccontent );
-
-	my %section;
-
-	for my $line (@lines) {
-
-		if ( $line =~ s{ ^ \[ (.*) \] $ }{$1}ox ) {
-			%section = ();
-			for my $elem ( split( /\s+/, $line ) ) {
-				my ( $key, $value ) = split( /=/, $elem );
-				$section{$key} = $value;
-			}
-			next;
-		}
-
-		my ( $id, $left, $top, $right, $bottom, $controlpath, @rest )
-		  = split( /\s+/, $line );
-		my @text;
-
-		if ( not $id or $id =~ m{^#}o ) {
-			next;
-		}
-
-		# image areas don't specify right and bottom and are usually 32x32px
-		$right  ||= $left + 32;
-		$bottom ||= $top + 32;
-
-		if ( exists $coordinates->{$id} ) {
-			push(
-				@{ $coordinates->{$id}->{duplicates} },
-				{
-					x1 => $left,
-					y1 => $top,
-					x2 => $right - $left,
-					y2 => $bottom - $top
-				}
-			);
-			next;
-		}
-
-		$coordinates->{$id} = {
-			x1   => $left,
-			y1   => $top,
-			x2   => $right - $left,
-			y2   => $bottom - $top,
-			path => $controlpath,
-		};
-
-		for my $key ( keys %section ) {
-			$coordinates->{$id}->{$key} //= $section{$key};
-		}
-
-		for my $elem (@rest) {
-			if ( $elem =~ m{ ^ (?<key> [^=]+ ) = (?<value> .+ ) $ }ox ) {
-				$coordinates->{$id}->{ $+{key} } = $+{value};
-			}
-			else {
-				push( @text, $elem );
-			}
-		}
-
-		$coordinates->{$id}->{text} = decode( 'UTF-8', join( q{ }, @text ) );
-
-		$controlpath //= q{};
-		if ( $controlpath =~ m{ ^ gpio (\d+) $ }ox ) {
-			$gpiomap->{$id} = gpio($1);
-		}
-		elsif ( $controlpath =~ m{ ^ ( donationprint | feedback ) }ox ) {
-			$remotemap->{$id} = "/tmp/${controlpath}";
-		}
-
-		$coordinates->{$id}->{is_readable}
-		  = ( $coordinates->{$id}->{path} ne 'none' ) ? 1 : 0;
-		$coordinates->{$id}->{is_writable}
-		  = (     $coordinates->{$id}->{path} ne 'none'
-			  and $id !~ m{ _ (?: au | r o ) $}ox ) ? 1 : 0;
-	}
-	return;
-}
-
-if (@ARGV and $ARGV[0] eq 'autoconf') {
-	if (-r '/srv/www/dorfmap/coordinates') {
+if ( @ARGV and $ARGV[0] eq 'autoconf' ) {
+	if ($json) {
 		say 'yes';
 		exit 0;
 	}
-	say 'no (/srv/www/dorfmap/coordinates not readable)';
+	say 'no (unable to find a running dorfmap instance)';
 	exit 0;
 }
 
-load_coordinates();
-
-$0 =~ m{ / dorfmap _ (?<area> .+ ) $ }x or die("$0 must be called dorfmap_<area>\n");
+$0 =~ m{ / dorfmap _ (?<area> .+ ) $ }x
+  or die("$0 must be called as dorfmap_<area>\n");
 
 my $area = $+{area};
 
-if (@ARGV and $ARGV[0] eq 'config') {
-	printf("graph_title Dorfmap: %s\n", $area);
-	printf("graph_vlabel Anzahl Geraete\n", $area);
-	printf("graph_info Dorfmap-Devices im Bereich %s\n", $area);
+if ( @ARGV and $ARGV[0] eq 'config' ) {
+	printf( "graph_title Dorfmap: %s\n",                  $area );
+	printf( "graph_vlabel Anzahl Geraete\n",              $area );
+	printf( "graph_info Dorfmap-Devices im Bereich %s\n", $area );
 	say('graph_args -l -1 -u 1');
 	say('graph_category other');
 }
 
-for my $id ( sort keys %{$coordinates} ) {
-	if ( $coordinates->{$id}->{type} ~~
+for my $id ( sort keys %{$json} ) {
+	if (    $json->{$id}->{type}
+		and $json->{$id}->{type} ~~
 		[qw[amp blinkenlight printer light light_au]]
-		and $coordinates->{$id}->{area} eq $area )
+		and $json->{$id}->{area} eq $area )
 	{
-		if (@ARGV and $ARGV[0] eq 'config') {
-			printf("%s.label %s\n", $id, $id);
-			printf("%s.draw AREASTACK\n", $id);
-			printf("%s.info %s\n", $id, $coordinates->{$id}->{text});
-			printf("%s.min 0\n", $id);
-			printf("%s.max 1\n", $id);
+		if ( @ARGV and $ARGV[0] eq 'config' ) {
+			printf( "%s.label %s\n", $id, $id );
+			printf( "%s.draw AREASTACK\n", $id );
+			printf( "%s.info %s\n",        $id, $json->{$id}->{desc} );
+			printf( "%s.min 0\n",          $id );
+			printf( "%s.max 1\n",          $id );
 		}
 		else {
-			printf( "%s.value %d\n", $id, get_device($id) );
+			printf( "%s.value %d\n", $id, $json->{$id}->{status} );
 		}
 	}
 }
