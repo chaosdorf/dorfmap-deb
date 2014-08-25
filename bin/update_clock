@@ -27,7 +27,7 @@ case "${CLOCKMODE}" in
 	;;
 	power)
 		(
-		for i in 0 20 40; do
+		for i in 0 5 10 15 20 25 30 35 40 45 50; do
 			PWR=$(printf "%4.f" "$(cat /srv/www/flukso/60)")
 			if [ "${PWR}" -le 0 ]; then
 				PWR='--------        '
@@ -35,7 +35,7 @@ case "${CLOCKMODE}" in
 				PWR='9999    '
 			fi
 			propagate "${PWR}" "$2" "$3"
-			sleep 18
+			sleep 5
 		done
 		) &
 		sleep 2
