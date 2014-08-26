@@ -9,13 +9,24 @@ use 5.014;
 use utf8;
 
 use Encode qw(decode);
+use File::Slurp qw(read_file write_file);
 use JSON;    # automatically uses JSON::XS if available
 use LWP::Simple;
 
 no if $] >= 5.018, warnings => "experimental::smartmatch";
 
-my $raw_json = get('http://dorfmap/list/all.json');
-my $json     = from_json($raw_json);
+my $cache = '/tmp/dorfmap_all.json';
+my ( $raw_json, $json );
+
+if ( -e $cache and -M $cache < ( 1 / 1440 ) ) {
+	$raw_json = read_file($cache);
+}
+else {
+	$raw_json = get('http://dorfmap/list/all.json');
+	write_file( $cache, $raw_json );
+}
+
+$json = from_json($raw_json);
 
 if ( @ARGV and $ARGV[0] eq 'autoconf' ) {
 	if ($json) {
