@@ -34,10 +34,12 @@ def update_configs():
 
     put('etc/inetd.conf', '/etc/inetd.conf')
     put('etc/rc.local', '/etc/rc.local')
-    put('lighttpd/lighttpd.conf', '/etc/lighttpd/lighttpd.conf')
+    for conf in ['dorfmap', 'feedback']:
+        put('nginx/%s' % conf, '/etc/nginx/sites-available/%s' % conf)
+        run('ln -fs ../sites-available/%s %s' % (conf, conf))
 
 def restart_daemons():
-    run("/etc/init.d/lighttpd restart")
+    run("/etc/init.d/nginx reload")
     run("/etc/init.d/munin-node restart")
 
 def deploy(version):

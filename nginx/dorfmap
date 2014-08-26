@@ -1,0 +1,32 @@
+upstream dorfmap {
+	server 127.0.0.1:8081;
+}
+upstream socketio {
+	server 172.22.26.56:3001;
+}
+
+server {
+	listen 80;
+	server_name dorfmap dorfmap.chaosdorf.dn42;
+	location /static {
+		alias /srv/www/dorfmap/public;
+	}
+	location /socket.io {
+		proxy_pass http://socketio;
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto "http";
+	}
+	location / {
+		proxy_pass http://dorfmap;
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto "http";
+	}
+}
