@@ -53,7 +53,7 @@ if ( @ARGV and $ARGV[0] eq 'config' ) {
 for my $id ( sort keys %{$json} ) {
 	if (    $json->{$id}->{type}
 		and $json->{$id}->{type} ~~
-		[qw[amp blinkenlight printer light light_au]]
+		[qw[amp blinkenlight printer switch light light_au]]
 		and $json->{$id}->{area} eq $area )
 	{
 		if ( @ARGV and $ARGV[0] eq 'config' ) {
