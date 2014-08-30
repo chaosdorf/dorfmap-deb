@@ -21,8 +21,8 @@ case "${CLOCKMODE}" in
 		propagate "$(date '+%H%M%H.%M')" "$2" "$3"
 	;;
 	hosts)
-		GUESTS="$(curl -s -m 4 http://feedback/stored.online_guests)"
-		OHOSTS="$(curl -s -m 4 http://feedback/stored.online_hosts)"
+		GUESTS="$(curl -s -m 4 http://feedback/bgdata/hosts_dynamic)"
+		OHOSTS="$(curl -s -m 4 http://feedback/bgdata/hosts_total)"
 		propagate $(printf "dhcpdhcp%04d%04d%04d%04d%04d%04d\n" "${OHOSTS}" "${OHOSTS}" "${OHOSTS}" "${GUESTS}" "${GUESTS}" "${GUESTS}") "$2" "$3"
 	;;
 	power)
