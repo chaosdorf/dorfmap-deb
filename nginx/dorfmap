@@ -2,7 +2,7 @@ upstream dorfmap {
 	server 127.0.0.1:8081;
 }
 upstream socketio {
-	server 172.22.26.56:3001;
+	server 172.22.26.62:3001;
 }
 
 server {
