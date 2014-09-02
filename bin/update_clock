@@ -28,7 +28,7 @@ case "${CLOCKMODE}" in
 	power)
 		(
 		for i in 0 5 10 15 20 25 30 35 40 45 50; do
-			PWR=$(printf "%4.f" "$(cat /srv/www/flukso/60)")
+			PWR=$(printf "%4.f" "$(cat /srv/www/flukso/30)")
 			if [ "${PWR}" -le 0 ]; then
 				PWR='--------        '
 			elif [ "${PWR}" -gt 9999 ]; then
