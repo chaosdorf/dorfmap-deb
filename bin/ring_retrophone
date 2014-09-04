@@ -17,9 +17,9 @@ elif [ "${NHOSTS}" -lt 80 ]; then
 fi
 
 echo 1 > /tmp/feedback1/11
-avrshift feedback1
+dorfmap_set_remote feedback1
 
 sleep $HTIME
 
 echo 0 > /tmp/feedback1/11
-avrshift feedback1
+dorfmap_set_remote feedback1

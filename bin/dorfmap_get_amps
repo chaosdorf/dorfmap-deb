@@ -1,0 +1,15 @@
+#!/bin/sh
+
+astatus="$(echo "$(cat /etc/dorfmap/pw.powerswitch)" status | nc -w 4 hyperion 1338)"
+
+AMPDIR=/tmp/hyperion1
+
+for port in 0 1 2 3; do
+	if echo "$astatus" | fgrep "port ${port}: on"; then
+		echo 1 > ${AMPDIR}/amp${port}
+	elif echo "$astatus" | fgrep "port ${port}: off"; then
+		echo 0 > ${AMPDIR}/amp${port}
+	else
+		echo - -1 > ${AMPDIR}/amp${port}
+	fi
+done
