@@ -5,22 +5,18 @@ mkdir -p /srv/www/bgdata
 cd /srv/www/bgdata
 
 HOSTS="$(fping -c 1 -g -i 10 172.22.26.0/23 2>&1 | fgrep '1/1/0%' | cut -d ' ' -f 1)"
+MANAGEMENT="$(fping -c 1 -g -i 10 192.168.0.0/24 2>&1 | fgrep '1/1/0%' | cut -d ' ' -f 1)"
 
 NHOSTS="$(echo "$HOSTS" | wc -l)"
-NCINFRA="$(echo "$HOSTS" | egrep -c '\.26\.(1|2|3|4|7|9|10|93|94|95|96)$')"
-NOINFRA="$(echo "$HOSTS" | egrep -c '\.26\.(5|6|8|11|12|20|66|81|82)$')"
-NVIRT="$(echo "$HOSTS" | egrep -c '\.26\.(5.|60|61|77|103|128|155)$')"
-NINFRA="$((NCINFRA + NOINFRA))"
-NDHCP="$(echo "$HOSTS" | egrep -c '^172\.22\.27')"
-NSTATIC="$(echo "$HOSTS" | egrep -c '\.26\.2..$')"
+NSTATIC="$(echo "$HOSTS" | egrep -c '172\.22\.26\.')"
+NDHCP="$(echo "$HOSTS" | egrep -c '172\.22\.27\.')"
+NMANAGEMENT="$(echo "$MANAGEMENT" | wc -l)"
 
 echo "${HOSTS}" > hosts
-echo "${NHOSTS}" > hosts_total
-echo "${NCINFRA}" > hosts_critical_infra
-echo "${NOINFRA}" > hosts_other_infra
-echo "${NVIRT}" > hosts_virtual
-echo "${NINFRA}" > hosts_infra
-echo "${NDHCP}" > hosts_dynamic
+echo "${MANAGEMENT}" > management
+echo "$(( NHOSTS + NMANAGEMENT ))" > hosts_total
+echo "${NMANAGEMENT}" > hosts_management
 echo "${NSTATIC}" > hosts_static
+echo "${NDHCP}" > hosts_dynamic
 
 curl -s -m 4 http://dorfmap/space_api.json > /srv/www/space_api.json
