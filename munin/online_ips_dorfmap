@@ -18,20 +18,20 @@ graph_info This graph shows the number of visible hosts
 hosts.label Online Hosts
 hosts.draw LINE1
 hosts.info Current number of online hosts
-dynip.label DHCP
-dynip.draw STACK
-dynip.info Hosts in dynamic DHCP range
+infra.label Management VLAN
+infra.draw AREA
+infra.info Hosts in Management VLAN
 static.label Static
 static.draw STACK
 static.info Hosts in static DHCP range
-infra.label Management VLAN
-infra.draw STACK
-infra.info Hosts in Management VLAN
+dynip.label DHCP
+dynip.draw STACK
+dynip.info Hosts in dynamic DHCP range
 EOF
 	exit 0
 fi
 
 echo "hosts.value $(cat /srv/www/bgdata/hosts_total)"
-echo "dynip.value $(cat /srv/www/bgdata/hosts_dynamic)"
-echo "static.value $(cat /srv/www/bgdata/hosts_static)"
 echo "infra.value $(cat /srv/www/bgdata/hosts_management)"
+echo "static.value $(cat /srv/www/bgdata/hosts_static)"
+echo "dynip.value $(cat /srv/www/bgdata/hosts_dynamic)"
