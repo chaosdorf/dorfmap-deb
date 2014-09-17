@@ -125,7 +125,7 @@ echo ' avg' > /tmp/feedback1/7segment3.mode
 chmod 666 /tmp/feedback1/7segment3.mode
 
 cd /srv/www
-git clone /root/dorfmap
+rsync -a /root/dorfmap dorfmap
 cd dorfmap
 chown -R www-data:www-data .
 nice -n -1 sudo -u www-data hypnotoad index.pl || true
