@@ -1,8 +1,8 @@
 #!/bin/sh
 
-astatus="$(echo "$(cat /etc/dorfmap/pw.powerswitch)" status | nc -w 4 hyperion 1338)"
+astatus="$(echo "$(cat /etc/dorfmap/pw.powerswitch)" status | nc -w 4 helios 1338)"
 
-AMPDIR=/tmp/hyperion1
+AMPDIR=/tmp/helios1
 
 for port in 0 1 2 3; do
 	if echo "$astatus" | fgrep -q "port ${port}: on"; then

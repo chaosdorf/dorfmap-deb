@@ -94,11 +94,11 @@ for i in bin0 bin1 bin3 bin5 bin6 bin7 pwm0 pwm1 pwm2; do
 	chmod 666 /tmp/feedback6/$i
 done
 
-mkdir /tmp/hyperion1
-chmod 777 /tmp/hyperion1
+mkdir /tmp/helios1
+chmod 777 /tmp/helios1
 for i in 0 1 2 3; do
-	echo 0 > /tmp/hyperion1/$i
-	chmod 666 /tmp/hyperion1/$i
+	echo 0 > /tmp/helios1/$i
+	chmod 666 /tmp/helios1/$i
 done
 dorfmap_get_amps
 
