@@ -25,17 +25,11 @@ shutdown.draw AREASTACK
 shutdown.info Status des Shutdown-Knopfs
 shutdown.min -1
 shutdown.max 1
-counter.label usage
-counter.info Tuerbetaetigungen
-counter.draw LINE1
-counter.type COUNTER
-counter.cdef counter,300,*
 EOF
 	exit 0
 fi
 
 STATUS="$(cat /srv/www/doorstatus)"
-COUNTER="$(curl -m 3 -s http://door/doorcount || echo 0)"
 
 case "${STATUS}" in
 open*) echo status.value 1 ;;
@@ -44,4 +38,3 @@ closed*) echo status.value 0 ;;
 esac
 
 echo shutdown.value "$(cat /srv/www/is_shutdown || echo -1)"
-echo counter.value "${COUNTER}"
