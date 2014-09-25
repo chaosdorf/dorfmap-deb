@@ -35,6 +35,9 @@ gpioexport 17
 #gpioexport 25 (always off)
 #gpioexport 27
 
+mkdir /tmp/dorfmap-err
+chmod 777 /tmp/dorfmap-err
+
 mkdir /tmp/donationprint1
 chmod 777 /tmp/donationprint1
 for i in $(seq 1 13); do

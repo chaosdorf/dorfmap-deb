@@ -48,4 +48,12 @@ else
 fi
 
 ;;
+
+*)
+
+echo "unable to handle arguments '$@' on $(date)" >> /tmp/dorfmap-err/dorfmap_set_remote
+env >> /tmp/dorfmap-err/dorfmap_set_remote
+echo "" >> /tmp/dorfmap-err/dorfmap_set_remote
+
+;;
 esac
