@@ -8,6 +8,13 @@ if [ "$1" = "autoconf" ]; then
 	exit 0
 fi
 
+
+# counter.type COUNTER makes munin use the difference to the previous reading,
+# so we get the usage count for the last 5 minutes. however, since munin
+# treats it as a per-second value, it is internally divided by 300
+# (we refresh every 300 seconds). Therefore, we use .cdef with *3600 to
+# turn it into a per-hour estimate.
+
 if [ "$1" = "config" ]; then
 	cat <<'EOF'
 graph_title Chaosdoor
