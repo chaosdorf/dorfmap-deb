@@ -19,7 +19,7 @@ counter.label usage
 counter.info Tuerbetaetigungen
 counter.draw LINE1
 counter.type COUNTER
-counter.cdef counter,3600,*
+counter.cdef counter,12,*
 EOF
 	exit 0
 fi
