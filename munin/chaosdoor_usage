@@ -1,0 +1,29 @@
+#!/bin/sh
+
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+	cat <<'EOF'
+graph_title Chaosdoor
+graph_args -l 0
+graph_vlabel Oeffnungen / Stunde
+graph_category network
+graph_info Gemittelte Oeffnungen pro Stunde
+counter.label usage
+counter.info Tuerbetaetigungen
+counter.draw LINE1
+counter.type COUNTER
+counter.cdef counter,3600,*
+EOF
+	exit 0
+fi
+
+COUNTER="$(curl -m 3 -s http://door/doorcount || echo 0)"
+
+echo counter.value "${COUNTER}"
