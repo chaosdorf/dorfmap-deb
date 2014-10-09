@@ -11,13 +11,8 @@ fi
 
 if [ "$(cat /srv/www/doorstatus)" = open ]; then
 	echo 1 > /tmp/feedback2/bin5
-	if [ -e /srv/www/stored.online_guests ]; then
-		if [ "$(cat /srv/www/stored.online_guests)" -le 4 ]; then
-			warnblink red &
-		elif [ "$(cat /srv/www/stored.online_guests)" -le 8 ]; then
-			warnblink yellow &
-		fi
-	fi
+	dorfmap_set_remote feedback2
 else
 	echo 0 > /tmp/feedback2/bin5
+	dorfmap_set_remote feedback2
 fi
