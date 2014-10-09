@@ -8,12 +8,12 @@ fi
 
 for i in $(seq 1 33); do
 	echo 255 > /tmp/feedback2/${CTLFILE}
-	avrshift-feedback
+	dorfmap_set_remote feedback2
 	sleep 0.5
 	echo 8 > /tmp/feedback2/${CTLFILE}
-	avrshift-feedback
+	dorfmap_set_remote feedback2
 	sleep 0.5
 done
 
 echo 0 > /tmp/feedback2/${CTLFILE}
-avrshift-feedback
+dorfmap_set_remote feedback2
