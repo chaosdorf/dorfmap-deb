@@ -23,19 +23,10 @@ if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 	) &
 
 	flock -n /tmp/ringbellmp.lock mplayer -ao pulse:helios /usr/local/share/"${BFILE}" < /dev/null > /dev/null 2> /dev/null || exit
-	for i in 1 2 3 4 5 6 7 8 9 10; do
-		echo 1 > /tmp/donationprint1/6
-		dorfmap_set_remote donationprint1
-		sleep 0.7
-		echo 0 > /tmp/donationprint1/6
-		dorfmap_set_remote donationprint1
-		sleep 0.7
-	done
 
 elif [ "${line}" = openannounce ]; then
 
 	echo open > /srv/www/doorstatus
-	echo 1 > /sys/class/gpio/gpio4/value
 
 	case $(( $$ % 2 )) in
 		0) AFILE=public.wav ;;
@@ -44,14 +35,13 @@ elif [ "${line}" = openannounce ]; then
 
 	mplayer -volume 100 -ao pulse:helios /usr/local/share/"${AFILE}" < /dev/null > /dev/null 2> /dev/null
 
-	echo 1 > /tmp/donationprint1/5
-	echo 0 > /tmp/donationprint1/8
+	echo 0 > /tmp/donationprint1/5
+	echo 1 > /tmp/donationprint1/8
 	dorfmap_set_remote donationprint1
 
 elif [ "${line}" = closedannounce ]; then
 
 	echo closed > /srv/www/doorstatus
-	echo 0 > /sys/class/gpio/gpio4/value
 
 	case $(( $$ % 2 )) in
 		0) AFILE=private.wav ;;
@@ -60,8 +50,29 @@ elif [ "${line}" = closedannounce ]; then
 
 	mplayer -volume 100 -ao pulse:helios /usr/local/share/"${AFILE}" < /dev/null > /dev/null 2> /dev/null
 
-	echo 0 > /tmp/donationprint1/5
-	echo 1 > /tmp/donationprint1/8
+	echo 1 > /tmp/donationprint1/5
+	echo 0 > /tmp/donationprint1/8
+	dorfmap_set_remote donationprint1
+
+elif [ "${line}" = donationprint_doorstatus ]; then
+
+	curl -s -m 4 -d action=shortcut -d shortcut=makeprivate http://dorfmap/action
+	echo 1 > /tmp/donationprint1/5
+	echo 0 > /tmp/donationprint1/8
+	dorfmap_set_remote donationprint1
+
+elif [ "${line}" = donationprint_raumstatus ]; then
+
+	if [ -e /tmp/is_shutdown ]; then
+		curl -s -m 4 -d action=shortcut -d shortcut=unshutdown http://dorfmap/action
+		echo 1 > /tmp/donationprint1/5
+		echo 0 > /tmp/donationprint1/8
+	else
+		curl -s -m 4 -d action=shortcut -d shortcut=shutdown http://dorfmap/action
+		echo 0 > /tmp/donationprint1/5
+		echo 0 > /tmp/donationprint1/8
+	fi
+
 	dorfmap_set_remote donationprint1
 
 elif [ "${line}" = toggledoorlight ]; then
