@@ -87,4 +87,6 @@ elif [ "${line}" = donationprint_raumstatus ]; then
 
 	dorfmap_set_remote donationprint1
 
+fi
+
 exit 0
