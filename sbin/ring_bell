@@ -35,6 +35,8 @@ elif [ "${line}" = openannounce ]; then
 
 	mplayer -volume 100 -ao pulse:helios /usr/local/share/"${AFILE}" < /dev/null > /dev/null 2> /dev/null
 
+	curl -s -m 4 -d action=shortcut -d shortcut=unshutdown http://dorfmap/action
+
 	echo 0 > /tmp/donationprint1/5
 	echo 1 > /tmp/donationprint1/8
 	dorfmap_set_remote donationprint1
@@ -84,15 +86,5 @@ elif [ "${line}" = donationprint_raumstatus ]; then
 	fi
 
 	dorfmap_set_remote donationprint1
-
-elif [ "${line}" = toggledoorlight ]; then
-
-	if [ "$(cat /tmp/donationprint1/5)" = 1 ]; then
-		echo 0 > /tmp/donationprint1/5
-		echo 1 > /tmp/donationprint1/8
-	fi
-	dorfmap_set_remote donationprint1
-
-fi
 
 exit 0
