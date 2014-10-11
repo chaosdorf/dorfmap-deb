@@ -1,6 +1,7 @@
 #!/bin/sh
 
-CLOCKMODE="$1"
+CLOCKFILE="$1"
+CLOCKMODE="$(cat "$CLOCKFILE")"
 
 propagate() {
 	if [ "$2" = donationprint ]; then
@@ -34,7 +35,13 @@ case "${CLOCKMODE}" in
 			elif [ "${PWR}" -gt 9999 ]; then
 				PWR='9999    '
 			fi
-			propagate "${PWR}" "$2" "$3"
+
+			# The clock mode may be set to something else while we are in
+			# this loop. Therefore, always check if we really should
+			# update the power consumption.
+			if [ "$(cat "$CLOCKFILE")" = power ]; then
+				propagate "${PWR}" "$2" "$3"
+			fi
 			sleep 5
 		done
 		) &
