@@ -8,3 +8,4 @@ MAILTO=root
   */4  *   *   *   *   www-data  nice gather_bgdata
   *    *   *   *   *   www-data  update_www_status
   *    *   *   *   *   www-data  update_clocks
+  *    *   *   *   *   root      dorfmap_sanity_check

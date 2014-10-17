@@ -1,0 +1,20 @@
+#!/bin/sh
+## Copyright © 2014 by Daniel Friesel <derf@finalrewind.org>
+## License: WTFPL:
+##   0. You just DO WHAT THE FUCK YOU WANT TO.
+
+ERRBASE=/tmp/dorfmap-err
+
+for warnfile in dorfmap_set_remote; do
+	if [ -e "${ERRBASE}/${warning}" ]; then
+		warnblink yellow &
+		break
+	fi
+done
+
+for critfile in door_set_private; do
+	if [ -e "${ERRBASE}/${critfile}" ]; then
+		warnblink red &
+		break
+	fi
+done
