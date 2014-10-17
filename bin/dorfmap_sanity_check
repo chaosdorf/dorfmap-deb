@@ -6,7 +6,7 @@
 ERRBASE=/tmp/dorfmap-err
 
 for warnfile in dorfmap_set_remote; do
-	if [ -e "${ERRBASE}/${warning}" ]; then
+	if [ -e "${ERRBASE}/${warnfile}" ]; then
 		warnblink yellow &
 		break
 	fi
