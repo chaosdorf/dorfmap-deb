@@ -19,11 +19,12 @@ if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 		RANDOM=$(dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -c"1-5")
 	fi
 
-	case $(( RANDOM % 4 )) in
+	case $(( RANDOM % 5 )) in
 		0) BFILE=doorbell1.wav ;;
 		1) BFILE=doorbell1.wav ;;
 		2) BFILE=doorbell2.m4a ;;
 		3) BFILE=doorbell3.ogg ;;
+		4) BFILE=doorbell4.mp3 ;;
 	esac
 
 	flock -n /tmp/ringbellmp.lock mplayer -ao pulse:pulseaudio /usr/local/share/"${BFILE}" < /dev/null > /dev/null 2> /dev/null || exit
