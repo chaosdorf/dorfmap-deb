@@ -32,6 +32,14 @@ cd /tmp/feedback6
 cat pwm0 pwm1 pwm2; echo "0\n10" ) | si2c-bytewrite 8 11
 
 ;;
+feedback7)
+
+cd /tmp/feedback7
+( echo $(( ( $(cat bin0) ) | ( $(cat bin1) << 1 ) | ( $(cat bin2) << 5 ) | ( $(cat bin3) << 6 ) | ( $(cat bin4) << 7 ) ));
+echo $(( ( $(cat bin5) ) | ( $(cat bin6) << 1 ) | ( $(cat bin7) << 4 ) | ( $(cat bin8) << 6 ) ));
+cat pwm0 pwm1 pwm2 pwm3; echo "0\n12" ) | si2c-bytewrite 8 11
+
+;;
 donationprint1)
 
 cd /tmp/donationprint1
