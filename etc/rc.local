@@ -171,10 +171,12 @@ fi
 
 chown www-data:www-data /srv/www/doorstatus
 
-(
-sleep 240
-
-nice sudo -u www-data perl scripts/setup/rdftohashdb
-) &
+## Only used by the wiki layer - disabled at the moment since that layer
+## is also not used.
+#(
+#sleep 240
+#
+#nice sudo -u www-data perl scripts/setup/rdftohashdb
+#) &
 
 exit 0
