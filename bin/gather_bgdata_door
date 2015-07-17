@@ -4,12 +4,13 @@ mkdir -p /srv/www/bgdata
 
 cd /srv/www/bgdata
 
+THISH="$(curl -m 3 -s http://door/doorcount)"
+
 if [ ! -e chaosdoor_counter ]; then
-	echo 0 > chaosdoor_counter
+	echo "${THISH}" > chaosdoor_counter
 fi
 
 LASTH="$(cat chaosdoor_counter)"
-THISH="$(curl -m 3 -s http://door/doorcount)"
 
 if [ -z "${THISH}" ]; then
 	echo 0 > chaosdoor_diff

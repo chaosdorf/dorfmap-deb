@@ -23,14 +23,13 @@ graph_vlabel Oeffnungen / Stunde
 graph_category network
 graph_info Gemittelte Oeffnungen pro Stunde
 counter.label usage
-counter.info Tuerbetaetigungen
+counter.info Tuerbetaetigungen / Stunde
 counter.draw LINE1
-counter.type COUNTER
-counter.cdef counter,3600,*
+counter.min 0
 EOF
 	exit 0
 fi
 
-COUNTER="$(curl -m 3 -s http://door/doorcount || echo 0)"
+COUNTER="$(cat /srv/www/bgdata/chaosdoor_diff || echo 0)"
 
 echo counter.value "${COUNTER}"
