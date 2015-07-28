@@ -7,8 +7,6 @@ if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 	echo 1 > /tmp/feedback1/13
 	dorfmap_set_remote feedback1
 
-	ring_retrophone &
-
 	(
 	sleep 12
 	echo 0 > /tmp/feedback1/13
