@@ -37,6 +37,9 @@ elif [ "${line}" = openannounce ]; then
 	echo 1 > /tmp/donationprint1/8
 	dorfmap_set_remote donationprint1
 
+	echo 1 > /tmp/feedback8/bin8
+	dorfmap_set_remote feedback8
+
 	if [ -z "$RANDOM" ]; then
 		RANDOM=$(dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -c"1-5")
 	fi
@@ -60,6 +63,9 @@ elif [ "${line}" = closedannounce ]; then
 		echo 0 > /tmp/donationprint1/8
 	fi
 	dorfmap_set_remote donationprint1
+
+	echo 0 > /tmp/feedback8/bin8
+	dorfmap_set_remote feedback8
 
 	if [ -z "$RANDOM" ]; then
 		RANDOM=$(dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -c"1-5")
