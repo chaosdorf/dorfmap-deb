@@ -11,7 +11,7 @@ fi
 if [ "$1" = "config" ]; then
 	cat <<'EOF'
 graph_title Raumstatus
-graph_args -l -1 -u 10
+graph_args -l -1 -u 2
 graph_vlabel Raumstatus
 graph_category network
 graph_info 1 = offen, 0 = zu, -1 = unbekannt
