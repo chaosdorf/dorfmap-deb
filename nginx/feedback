@@ -1,5 +1,13 @@
+upstream aaas {
+	server 127.0.0.1:8099;
+}
+
 server {
 	listen [::]:80 default_server;
 	server_name feedback feedback.chaosdorf.dn42;
 	root /srv/www;
+
+	location /aaas {
+		proxy_pass http://aaas;
+	}
 }

@@ -186,4 +186,9 @@ chown www-data:www-data /srv/www/doorstatus
 #nice sudo -u www-data perl scripts/setup/rdftohashdb
 #) &
 
+( while sleep 29 ; do
+	echo "HTTP/1.1 200 OK\nServer: zsh\n\n" | nc -l 8099
+	mplayer -volume 80 -ao pulse:pulse /usr/local/share/air_horn.mp3 < /dev/null > /dev/null 2> /dev/null
+done ) &
+
 exit 0
