@@ -188,7 +188,7 @@ chown www-data:www-data /srv/www/doorstatus
 
 ( while sleep 29 ; do
 	echo "HTTP/1.1 200 OK\nServer: zsh\n" | nc -l 8099
-	echo 'loadfile /usr/local/share/air_horn.mp3'
-done ) | mplayer -ao pulse:pulse -volume 75 -idle -slave > /dev/null 2> /dev/null &
+	echo "loadfile $(/usr/local/bin/mystery_button)"
+done ) | sudo -u nobody mplayer -ao pulse:pulse -volume 75 -idle -slave > /dev/null 2> /dev/null &
 
 exit 0
