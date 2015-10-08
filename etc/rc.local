@@ -122,8 +122,6 @@ dorfmap_get_amps
 if [ -e /boot/dorfmapstate.tar.xz ]; then
 	tar -C / -xJf /boot/dorfmapstate.tar.xz
 	rm /boot/dorfmapstate.tar.xz
-else
-	( sleep 30; nice mplayer -volume 100 -ao pulse:mpd /usr/local/share/boot.m4a < /dev/null > /dev/null 2> /dev/null ) &
 fi
 
 # sometimes the semaphore breaks right after boot, ipcrm fixes this
@@ -190,5 +188,10 @@ chown www-data:www-data /srv/www/doorstatus
 	echo "HTTP/1.1 200 OK\nServer: zsh\n" | nc -l 8099
 	echo "loadfile $(/usr/local/bin/mystery_button)"
 done ) | sudo -u nobody mplayer -ao pulse:pulse -volume 75 -idle -slave > /dev/null 2> /dev/null &
+
+(
+	sleep 30
+	sudo -u nobody nice mplayer -volume 90 -ao pulse:mpd /usr/local/share/boot.m4a < /dev/null > /dev/null 2> /dev/null
+) &
 
 exit 0
