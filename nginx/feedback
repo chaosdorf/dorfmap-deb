@@ -1,5 +1,5 @@
 upstream aaas {
-	server 127.0.0.1:8099;
+	server 172.22.26.62:8099;
 }
 
 server {
