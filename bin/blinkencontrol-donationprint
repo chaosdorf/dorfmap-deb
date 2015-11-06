@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cd /tmp/donationprint2
-(echo "$(cat /etc/dorfmap/pw.blinkencontrol)"; cat commands ) | nc donationprint 1337
+(echo "$(cat /etc/dorfmap/pw.blinkencontrol)"; cat commands ) | nc -w 1 donationprint 1337
