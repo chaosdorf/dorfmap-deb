@@ -11,6 +11,9 @@ server {
 	location /static {
 		alias /srv/www/dorfmap/public;
 	}
+	location ~ ^/([^/]+.js) {
+		alias /srv/www/dorfmap/public/$1;
+	}
 	location /socket.io {
 		proxy_pass http://socketio;
 		proxy_http_version 1.1;
