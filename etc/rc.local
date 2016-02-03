@@ -22,18 +22,9 @@ tar -C /tmp -xf /root/gnupg.tar.xz
 touch /tmp/automatic_logo /tmp/automatic_outdoor /tmp/is_shutdown
 chown www-data:www-data /tmp/automatic_logo /tmp/automatic_outdoor /tmp/is_shutdown
 
-#gpioexport  2
-#gpioexport  3
-#gpioexport  4
 gpioexport  8
 gpioexport 11
 gpioexport 17
-#gpioexport 18
-#gpioexport 22
-#gpioexport 23 (always on)
-#gpioexport 24
-#gpioexport 25 (always off)
-#gpioexport 27
 
 mkdir /tmp/dorfmap-err
 chmod 777 /tmp/dorfmap-err
@@ -65,9 +56,6 @@ for i in bin1 bin3 bin5 bin6 pwm0 pwm1 pwm2; do
 	echo 0 > /tmp/feedback2/$i
 	chmod 666 /tmp/feedback2/$i
 done
-
-# circuit breaker feedback1
-echo 1 > /tmp/feedback2/bin3
 
 mkdir /tmp/feedback3
 chmod 777 /tmp/feedback3
@@ -176,17 +164,9 @@ fi
 
 chown www-data:www-data /srv/www/doorstatus
 
-## Only used by the wiki layer - disabled at the moment since that layer
-## is also not used.
-#(
-#sleep 240
-#
-#nice sudo -u www-data perl scripts/setup/rdftohashdb
-#) &
-
 (
 	sleep 30
-	sudo -u nobody nice mplayer -volume 90 -ao pulse:mpd /usr/local/share/boot.m4a < /dev/null > /dev/null 2> /dev/null
+	sudo -u nobody nice mplayer -volume 80 -ao pulse:pulse /usr/local/share/boot.m4a < /dev/null > /dev/null 2> /dev/null
 ) &
 
 exit 0
