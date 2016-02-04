@@ -23,7 +23,7 @@ TEMP=$(( $(cat /sys/class/thermal/thermal_zone0/temp) / 1000 ))
 if [ "$TEMP" -lt 0 ]; then
 	return 0
 fi
-if [ "$TEMP" -gt 100000 ]; then
+if [ "$TEMP" -gt 100 ]; then
 	return 0
 fi
 
