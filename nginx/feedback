@@ -4,6 +4,7 @@ upstream aaas {
 
 server {
 	listen [::]:80 default_server;
+	listen 0.0.0.0:80 default_server;
 	server_name feedback feedback.chaosdorf.dn42;
 	root /srv/www;
 

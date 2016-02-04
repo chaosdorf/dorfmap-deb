@@ -7,11 +7,12 @@ upstream socketio {
 
 server {
 	listen [::]:80;
+	listen 0.0.0.0:80;
 	server_name dorfmap dorfmap.chaosdorf.dn42;
 	location /static {
 		alias /srv/www/dorfmap/public;
 	}
-	location ~ ^/([^/]+.js) {
+	location ~ ^/([^/]+.js)$ {
 		alias /srv/www/dorfmap/public/$1;
 	}
 	location /socket.io {
