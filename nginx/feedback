@@ -1,14 +1,6 @@
-upstream aaas {
-	server 172.22.26.62:8099;
-}
-
 server {
 	listen [::]:80 default_server;
 	listen 0.0.0.0:80 default_server;
 	server_name feedback feedback.chaosdorf.dn42;
 	root /srv/www;
-
-	location /aaas {
-		proxy_pass http://aaas;
-	}
 }
