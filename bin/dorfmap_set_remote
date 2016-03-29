@@ -48,19 +48,27 @@ echo $(( ( $(cat bin5) ) | ( $(cat bin6) << 1 ) | ( $(cat bin7) << 4 ) | ( $(cat
 cat pwm0 pwm1 pwm2 pwm3; echo "0\n13" ) | si2c-bytewrite 8 11
 
 ;;
+feedback9)
+
+cd /tmp/feedback9
+( echo $(( ( $(cat bin0) ) | ( $(cat bin1) << 1 ) | ( $(cat bin2) << 5 ) | ( $(cat bin3) << 6 ) | ( $(cat bin4) << 7 ) ));
+echo $(( ( $(cat bin5) ) | ( $(cat bin6) << 1 ) | ( $(cat bin7) << 4 ) | ( $(cat bin8) << 6 ) ));
+cat pwm0 pwm1 pwm2 pwm3; echo "0\n14" ) | si2c-bytewrite 8 11
+
+;;
 donationprint1)
 
 cd /tmp/donationprint1
-(echo "$(cat /etc/dorfmap/pw.avrshift)"; cat 1 2 3 4 5 6 7 8 9 10 11 12 13; echo "0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0" ) | nc -w 1 donationprint 1337
+(echo "$(cat /etc/dorfmap/pw.avrshift)"; cat 1 2 3 4 5 6 7 8 9 10 11 12 13; echo "0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0" ) | nc -w 4 donationprint 1337
 
 ;;
 helios1)
 
 cd /tmp/helios1
 if [ "$(cat "$2")" = 1 ]; then
-	echo "$(cat /etc/dorfmap/pw.powerswitch)" on "$2" | nc -w 1 helios 1338
+	echo "$(cat /etc/dorfmap/pw.powerswitch)" on "$2" | nc -w 4 helios 1338
 else
-	echo "$(cat /etc/dorfmap/pw.powerswitch)" off "$2" | nc -w 1 helios 1338
+	echo "$(cat /etc/dorfmap/pw.powerswitch)" off "$2" | nc -w 4 helios 1338
 fi
 
 ;;

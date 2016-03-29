@@ -99,6 +99,13 @@ for i in bin0 bin1 bin2 bin3 bin4 bin5 bin6 bin7 bin8 pwm0 pwm1 pwm2 pwm3; do
 	chmod 666 /tmp/feedback8/$i
 done
 
+mkdir /tmp/feedback9
+chmod 777 /tmp/feedback9
+for i in bin0 bin1 bin2 bin3 bin4 bin5 bin6 bin7 bin8 pwm0 pwm1 pwm2 pwm3; do
+	echo 0 > /tmp/feedback9/$i
+	chmod 666 /tmp/feedback9/$i
+done
+
 mkdir /tmp/helios1
 chmod 777 /tmp/helios1
 for i in 0 1 2 3; do
@@ -166,7 +173,7 @@ chown www-data:www-data /srv/www/doorstatus
 
 (
 	sleep 30
-	sudo -u nobody nice mplayer -volume 80 -ao pulse:pulse /usr/local/share/boot.m4a < /dev/null > /dev/null 2> /dev/null
+	sudo -u nobody nice mplayer -volume 90 -ao pulse:pulse /usr/local/share/boot.m4a < /dev/null > /dev/null 2> /dev/null
 ) &
 
 exit 0
