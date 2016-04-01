@@ -3,12 +3,12 @@
 logo_on() {
 	rm -f /tmp/logo_is_off
 	if [ -e /tmp/logo_is_on ]; then
-		echo 255 > /tmp/feedback2/pwm2
+		echo 255 > /tmp/feedback7/pwm0
 	else
 		touch /tmp/logo_is_on
 		for i in 0 1 2 3 4 5 6 7 8 16 32 64 128 255; do
-			echo $i > /tmp/feedback2/pwm2
-			avrshift-feedback
+			echo $i > /tmp/feedback7/pwm0
+			dorfmap_set_remote feedback7
 			sleep 5
 		done
 	fi
@@ -17,12 +17,12 @@ logo_on() {
 logo_off() {
 	rm -f /tmp/logo_is_on
 	if [ -e /tmp/logo_is_off ]; then
-		echo 0 > /tmp/feedback2/pwm2
+		echo 0 > /tmp/feedback7/pwm0
 	else
 		touch /tmp/logo_is_off
 		for i in 255 128 64 32 16 8 7 6 5 4 3 2 1 0; do
-			echo $i > /tmp/feedback2/pwm2
-			avrshift-feedback
+			echo $i > /tmp/feedback7/pwm0
+			dorfmap_set_remote feedback7
 			sleep 5
 		done
 	fi
@@ -30,7 +30,7 @@ logo_off() {
 
 if [ -e /tmp/is_shutdown ]; then
 	echo 0 > /sys/class/gpio/gpio17/value
-	echo 0 > /tmp/feedback2/pwm2
+	echo 0 > /tmp/feedback7/pwm0
 	rm -f /tmp/logo_is_on /tmp/logo_is_off
 else
 	if [ -e /tmp/automatic_outdoor ]; then
@@ -63,4 +63,5 @@ else
 	echo 0 > /tmp/feedback2/bin1
 fi
 
-avrshift-feedback
+dorfmap_set_remote feedback2
+dorfmap_set_remote feedback7
