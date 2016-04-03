@@ -7,12 +7,3 @@ if [ -e /tmp/is_shutdown ]; then
 else
 	echo 0 > /srv/www/is_shutdown
 fi
-
-
-if [ "$(cat /srv/www/doorstatus)" = open ]; then
-	echo 1 > /tmp/feedback2/bin5
-	dorfmap_set_remote feedback2
-else
-	echo 0 > /tmp/feedback2/bin5
-	dorfmap_set_remote feedback2
-fi

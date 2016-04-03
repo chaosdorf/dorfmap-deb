@@ -29,18 +29,18 @@ logo_off() {
 }
 
 if [ -e /tmp/is_shutdown ]; then
-	echo 0 > /sys/class/gpio/gpio17/value
+	#echo 0 > /sys/class/gpio/gpio17/value
 	echo 0 > /tmp/feedback7/pwm0
 	rm -f /tmp/logo_is_on /tmp/logo_is_off
 else
 	if [ -e /tmp/automatic_outdoor ]; then
 		if is_sundown -d $(cat /etc/automatic_light_control/outdoor); then
-			echo 1 > /sys/class/gpio/gpio17/value
+			#echo 1 > /sys/class/gpio/gpio17/value
 		else
-			echo 0 > /sys/class/gpio/gpio17/value
+			#echo 0 > /sys/class/gpio/gpio17/value
 		fi
 	else
-		echo 0 > /sys/class/gpio/gpio17/value
+		#echo 0 > /sys/class/gpio/gpio17/value
 	fi
 	if [ -e /tmp/automatic_logo ]; then
 		if is_sundown -d $(cat /etc/automatic_light_control/logo); then
