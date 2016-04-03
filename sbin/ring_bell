@@ -34,10 +34,6 @@ elif [ "${line}" = openannounce ]; then
 
 	curl -s -m 4 -d action=shortcut -d shortcut=unshutdown http://dorfmap/action
 
-	echo 0 > /tmp/donationprint1/5
-	echo 1 > /tmp/donationprint1/8
-	dorfmap_set_remote donationprint1
-
 	echo 1 > /tmp/feedback8/bin8
 	dorfmap_set_remote feedback8
 
@@ -56,15 +52,6 @@ elif [ "${line}" = closedannounce ]; then
 
 	echo closed > /srv/www/doorstatus
 
-	if [ -e /tmp/is_shutdown ]; then
-		echo 0 > /tmp/donationprint1/5
-		echo 0 > /tmp/donationprint1/8
-	else
-		echo 1 > /tmp/donationprint1/5
-		echo 0 > /tmp/donationprint1/8
-	fi
-	dorfmap_set_remote donationprint1
-
 	echo 0 > /tmp/feedback8/bin8
 	dorfmap_set_remote feedback8
 
@@ -82,28 +69,14 @@ elif [ "${line}" = closedannounce ]; then
 elif [ "${line}" = donationprint_doorstatus ]; then
 
 	curl -s -m 4 -d action=shortcut -d shortcut=makeprivate http://dorfmap/action
-	if [ -e /tmp/is_shutdown ]; then
-		echo 0 > /tmp/donationprint1/5
-		echo 0 > /tmp/donationprint1/8
-	else
-		echo 1 > /tmp/donationprint1/5
-		echo 0 > /tmp/donationprint1/8
-	fi
-	dorfmap_set_remote donationprint1
 
 elif [ "${line}" = donationprint_raumstatus ]; then
 
 	if [ -e /tmp/is_shutdown ]; then
 		curl -s -m 4 -d action=shortcut -d shortcut=unshutdown http://dorfmap/action
-		echo 1 > /tmp/donationprint1/5
-		echo 0 > /tmp/donationprint1/8
 	else
 		curl -s -m 4 -d action=shortcut -d shortcut=shutdown http://dorfmap/action
-		echo 0 > /tmp/donationprint1/5
-		echo 0 > /tmp/donationprint1/8
 	fi
-
-	dorfmap_set_remote donationprint1
 
 fi
 
