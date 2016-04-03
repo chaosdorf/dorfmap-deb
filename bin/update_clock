@@ -13,13 +13,13 @@ propagate() {
 
 case "${CLOCKMODE}" in
 	blank)
-		propagate '    ' "$2" "$3"
+		propagate '      ' "$2" "$3"
 	;;
 	date)
-		propagate "$(date '+%d.%m.')" "$2" "$3"
+		propagate "$(date '+%d.%m.%y')" "$2" "$3"
 	;;
 	clock)
-		propagate "$(date '+%H%M%H.%M')" "$2" "$3"
+		propagate "$(date '+ %H %M %H .%M')" "$2" "$3"
 	;;
 	hosts)
 		GUESTS="$(curl -s -m 4 http://feedback/bgdata/hosts_dynamic)"
@@ -29,11 +29,9 @@ case "${CLOCKMODE}" in
 	power)
 		(
 		for i in 0 5 10 15 20 25 30 35 40 45 50; do
-			PWR=$(printf "%4.f" "$(cat /srv/www/flukso/30)")
+			PWR=$(printf "%6.f" "$(cat /srv/www/flukso/30)")
 			if [ "${PWR}" -le 0 ]; then
-				PWR='--------        '
-			elif [ "${PWR}" -gt 9999 ]; then
-				PWR='9999    '
+				PWR='------------            '
 			fi
 
 			# The clock mode may be set to something else while we are in
