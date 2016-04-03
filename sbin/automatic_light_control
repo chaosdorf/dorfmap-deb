@@ -29,18 +29,18 @@ logo_off() {
 }
 
 if [ -e /tmp/is_shutdown ]; then
-	#echo 0 > /sys/class/gpio/gpio17/value
+	echo 0 > /tmp/feedback10/bin3
 	echo 0 > /tmp/feedback7/pwm0
 	rm -f /tmp/logo_is_on /tmp/logo_is_off
 else
 	if [ -e /tmp/automatic_outdoor ]; then
 		if is_sundown -d $(cat /etc/automatic_light_control/outdoor); then
-			#echo 1 > /sys/class/gpio/gpio17/value
+			echo 1 > /tmp/feedback10/bin3
 		else
-			#echo 0 > /sys/class/gpio/gpio17/value
+			echo 0 > /tmp/feedback10/bin3
 		fi
 	else
-		#echo 0 > /sys/class/gpio/gpio17/value
+		echo 0 > /tmp/feedback10/bin3
 	fi
 	if [ -e /tmp/automatic_logo ]; then
 		if is_sundown -d $(cat /etc/automatic_light_control/logo); then
@@ -55,13 +55,13 @@ fi
 
 if [ -e /tmp/automatic_schaufenster ]; then
 	if is_sundown -d $(cat /etc/automatic_light_control/schaufenster); then
-		echo 1 > /tmp/feedback2/bin1
+		echo 1 > /tmp/feedback10/bin4
 	else
-		echo 0 > /tmp/feedback2/bin1
+		echo 0 > /tmp/feedback10/bin4
 	fi
 else
-	echo 0 > /tmp/feedback2/bin1
+	echo 0 > /tmp/feedback10/bin4
 fi
 
-dorfmap_set_remote feedback2
 dorfmap_set_remote feedback7
+dorfmap_set_remote feedback10
