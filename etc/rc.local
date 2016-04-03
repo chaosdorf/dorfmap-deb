@@ -105,6 +105,13 @@ for i in bin0 bin1 bin2 bin3 bin4 bin5 bin6 bin7 bin8 pwm0 pwm1 pwm2 pwm3; do
 	chmod 666 /tmp/feedback9/$i
 done
 
+mkdir /tmp/feedback10
+chmod 777 /tmp/feedback10
+for i in bin0 bin1 bin2 bin3 bin4 bin5 bin6 pwm0 pwm1 pwm2 pwm3; do
+	echo 0 > /tmp/feedback10/$i
+	chmod 666 /tmp/feedback10/$i
+done
+
 mkdir /tmp/helios1
 chmod 777 /tmp/helios1
 for i in 0 1 2 3; do
@@ -158,9 +165,6 @@ fi
 
 nice scripts/daemons/bgdata start || true
 nice scripts/daemons/fluksod start || true
-
-avrshift-donationprint || true
-avrshift-feedback || true
 
 if [ "$(curl -s -m 4 http://door/status)" = open ]; then
 	echo openannounce | ring_bell
