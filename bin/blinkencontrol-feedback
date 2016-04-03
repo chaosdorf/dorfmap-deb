@@ -1,3 +1,3 @@
 #!/bin/sh
 
-cat /tmp/feedback4/commands | si2c-bytewrite 8 11
+cat /tmp/feedback4/commands | si2c-bytewrite 21 20

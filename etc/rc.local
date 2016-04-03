@@ -22,9 +22,8 @@ tar -C /tmp -xf /root/gnupg.tar.xz
 touch /tmp/automatic_logo /tmp/automatic_outdoor /tmp/is_shutdown
 chown www-data:www-data /tmp/automatic_logo /tmp/automatic_outdoor /tmp/is_shutdown
 
-gpioexport  8
-gpioexport 11
-gpioexport 17
+gpioexport 20
+gpioexport 21
 
 mkdir /tmp/dorfmap-err
 chmod 777 /tmp/dorfmap-err
