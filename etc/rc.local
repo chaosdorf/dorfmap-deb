@@ -49,13 +49,6 @@ for i in $(seq 1 13); do
 	chmod 666 /tmp/feedback1/$i
 done
 
-mkdir /tmp/feedback2
-chmod 777 /tmp/feedback2
-for i in bin1 bin3 bin5 bin6 pwm0 pwm1 pwm2; do
-	echo 0 > /tmp/feedback2/$i
-	chmod 666 /tmp/feedback2/$i
-done
-
 mkdir /tmp/feedback3
 chmod 777 /tmp/feedback3
 for i in $(seq 1 12); do
@@ -175,7 +168,7 @@ fi
 chown www-data:www-data /srv/www/doorstatus
 
 (
-	sleep 30
+	sleep 15
 	sudo -u nobody nice mplayer -volume 90 -ao pulse:pulse /usr/local/share/boot.m4a < /dev/null > /dev/null 2> /dev/null
 ) &
 
