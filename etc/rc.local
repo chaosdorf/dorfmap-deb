@@ -124,15 +124,6 @@ sleep 30
 ipcrm -s 0
 ) &
 
-echo clock > /tmp/donationprint1/7segment1.mode
-chmod 666 /tmp/donationprint1/7segment1.mode
-
-echo power > /tmp/feedback1/7segment2.mode
-chmod 666 /tmp/feedback1/7segment2.mode
-
-echo ' avg' > /tmp/feedback1/7segment3.mode
-chmod 666 /tmp/feedback1/7segment3.mode
-
 mkdir -p /srv/www/.ssh
 cat > /srv/www/.ssh/known_hosts <<EOF
 |1|cQGYDnnjiPooTNqa2nNgT4dF5ts=|Qx9VZj0XF/6/H8AdWK6opNDKZyg= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIdZeAnygRug1whpYgtXRyrwbxvvVTIy5arzNCQvAJuT63RU4QvCyqtHpNEBKYhnQtZt7Oq3p7R5h6WFICgFodo=

@@ -1,5 +1,5 @@
 #!/bin/sh
 
-update_clock /tmp/donationprint1/7segment1.mode donationprint
-update_clock /tmp/feedback1/7segment2.mode 0 4
-update_clock /tmp/feedback1/7segment3.mode 0 5
+# empty for now
+
+exec update_clocks_legacy
