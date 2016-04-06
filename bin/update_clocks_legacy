@@ -15,7 +15,7 @@ for i in 0 20 40; do
 		PWR='9999    '
 	fi
 
-	echo "${PWR}" | si2c-charwrite-legacy 21 20 0 4
+	echo "${PWR}" | si2c-charwrite-legacy 21 20 0 4 || exit 0
 
 	sleep 20
 done
