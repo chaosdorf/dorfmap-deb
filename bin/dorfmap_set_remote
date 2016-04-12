@@ -61,7 +61,7 @@ cat pwm0 pwm1 pwm2 pwm3; echo "0\n15" ) | flock -x -w 3 /run/lock/feedback1.lock
 donationprint1)
 
 cd /tmp/donationprint1
-(echo "$(cat /etc/dorfmap/pw.avrshift)"; cat 1 2 3 4 5 6 7 8 9 10 11 12 13; echo "0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0" ) | nc -w 4 donationprint 1337
+(echo "$(cat /etc/dorfmap/pw.avrshift) $(cat 11)" ) | nc -w 4 donationprint 1337
 
 ;;
 helios1)
