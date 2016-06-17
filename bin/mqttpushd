@@ -1,0 +1,10 @@
+#!/bin/sh
+
+infile="$1"
+topic="$2"
+
+(
+	while sleep 5; do
+		echo "$(cat "${infile}")"
+	done
+) | mosquitto_pub -h mqttserver -t "${topic}" -l
