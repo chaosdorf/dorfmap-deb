@@ -1,10 +1,31 @@
-#!/bin/sh
+#!/usr/bin/env perl
 
-infile="$1"
-topic="$2"
+use strict;
+use warnings;
+use 5.010;
 
-(
-	while sleep 5; do
-		echo "$(cat "${infile}")"
-	done
-) | mosquitto_pub -h mqttserver -t "${topic}" -l
+use File::Slurp qw(read_file write_file);
+use Net::MQTT::Simple;
+
+my $flukso_prefix = '/srv/www/flukso';
+my $mqtt = Net::MQTT::Simple->new('mqttserver');
+
+sub slurp {
+	my ($file) = @_;
+
+	my $content = read_file( $file, err_mode => 'quiet' );
+	if ( defined $content ) {
+		chomp $content;
+	}
+	return $content;
+}
+
+while ( sleep(7) ) {
+
+	for my $phase (1 .. 3) {
+		$mqtt->retain("sensors/flukso/power/L${phase}/30s_average"
+			=> read_file("${flukso_prefix}/30_p${phase}"));
+	}
+	$mqtt->retain('sensors/flukso/power/sum/30s_average'
+		=> read_file("${flukso_prefix}/30"));
+}
