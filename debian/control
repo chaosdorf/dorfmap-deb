@@ -3,7 +3,7 @@ Section: admin
 Priority: optional
 Maintainer: Daniel Friesel <derf@chaosdorf.de>
 Uploaders: Daniel Friesel <derf@chaosdorf.de>
-Build-Depends: debhelper (>= 7)
+Build-Depends: debhelper (>= 7), dh-systemd
 Standards-Version: 3.9.4
 Homepage: http://github.com/chaosdorf/dorfmap-deb
 Vcs-Git: http://github.com/chaosdorf/dorfmap-deb.git
