@@ -1,0 +1,11 @@
+[Unit]
+Description=MQTT publisher
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/mqttpushd
+User=www-data
+
+[Install]
+WantedBy=multi-user.target
