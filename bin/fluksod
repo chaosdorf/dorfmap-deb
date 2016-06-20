@@ -10,8 +10,6 @@ use JSON;
 use List::Util qw(sum);
 use LWP::UserAgent;
 
-our $VERSION = '0.02';
-
 my $out_prefix = '/srv/www/flukso';
 my %cache;
 my @intervals = qw(30 60 300 600 3600);
@@ -50,11 +48,15 @@ for my $interval (@intervals) {
 
 mkdir($out_prefix);
 
-while ( sleep(7) ) {
+my $loop_cnt = 0;
+
+while ( sleep(1) ) {
 
 	my %sums;
 
 	my $request_errors = 0;
+
+	$loop_cnt = ( $loop_cnt + 1 ) % 8;
 
 	for my $pair (
 		[ 'p1', 'd80587d41bebde066f003a8f60ac0d01' ],
@@ -64,6 +66,7 @@ while ( sleep(7) ) {
 	{
 
 		my ( $name, $id ) = @{$pair};
+		my $last_value;
 
 		# host lookups take a while on the raspi (~800ms additional user time)
 		# -> use raw IP
@@ -85,22 +88,34 @@ while ( sleep(7) ) {
 		while ( $content =~ s{$re_pair}{} ) {
 			my ( $ts, $value ) = @+{ 'timestamp', 'value' };
 
-			for my $interval (@intervals) {
-				$cache{$name}{$interval}[ $ts % $interval ] = $value;
+			if ( $value =~ m{ ^ [0-9.]* $ }x ) {
+				$last_value = $value;
+				if ( $loop_cnt == 0 ) {
+					for my $interval (@intervals) {
+						$cache{$name}{$interval}[ $ts % $interval ] = $value;
+					}
+				}
 			}
 		}
-		for my $interval (@intervals) {
-			my $avg = ( sum @{ $cache{$name}{$interval} } ) / $interval;
-			spew( "${out_prefix}/${interval}_${name}", $avg );
-			$sums{$interval} += $avg;
+		if ($last_value) {
+			spew( "${out_prefix}/now_${name}", $last_value );
+		}
+		if ( $loop_cnt == 0 ) {
+			for my $interval (@intervals) {
+				my $avg = ( sum @{ $cache{$name}{$interval} } ) / $interval;
+				spew( "${out_prefix}/${interval}_${name}", $avg );
+				$sums{$interval} += $avg;
+			}
 		}
 	}
-	for my $interval (@intervals) {
-		if ( $request_errors < 3 ) {
-			spew( "${out_prefix}/${interval}", $sums{$interval} );
-		}
-		else {
-			spew( "${out_prefix}/${interval}", -1 );
+	if ( $loop_cnt == 0 ) {
+		for my $interval (@intervals) {
+			if ( $request_errors < 3 ) {
+				spew( "${out_prefix}/${interval}", $sums{$interval} );
+			}
+			else {
+				spew( "${out_prefix}/${interval}", -1 );
+			}
 		}
 	}
 }
