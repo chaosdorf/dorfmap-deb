@@ -1,4 +1,6 @@
 automatic_light_control/* etc/automatic_light_control/
 bin/* usr/bin/
+etc/systemd/fluksod.service etc/systemd/system/
+etc/systemd/mqttpushd.service etc/systemd/system/
 sbin/* usr/sbin/
 munin/* usr/share/munin/plugins/
