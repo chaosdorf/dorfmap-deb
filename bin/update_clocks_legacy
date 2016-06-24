@@ -7,7 +7,7 @@ else
 fi
 
 (
-for i in 0 20 40; do
+for i in 0 15 30 45; do
 	PWR=$(printf "%4.f" "$(cat /srv/www/flukso/30)")
 	if [ "${PWR}" -le 0 ]; then
 		PWR='--------        '
@@ -17,6 +17,6 @@ for i in 0 20 40; do
 
 	echo "${PWR}" | flock -x -n /run/lock/feedback1.lock si2c-charwrite-legacy 21 20 0 4 || exit 0
 
-	sleep 20
+	sleep 15
 done
 ) &
