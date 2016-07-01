@@ -1,6 +1,7 @@
 automatic_light_control/* etc/automatic_light_control/
 bin/* usr/bin/
 etc/systemd/dorfmap-bgdata.service etc/systemd/system/
+etc/systemd/dorfmap.service etc/systemd/system/
 etc/systemd/bootsound.service etc/systemd/system/
 etc/systemd/door-init.service etc/systemd/system/
 etc/systemd/dorfmap-init.service etc/systemd/system/

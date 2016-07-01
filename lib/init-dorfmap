@@ -119,7 +119,6 @@ cd /srv/www
 rsync -a /root/dorfmap/ dorfmap/
 cd dorfmap
 chown -R www-data:www-data .
-nice -n -1 sudo -u www-data hypnotoad index.pl
 
 if [ -e /boot/dorfmap-presets.db ]; then
 	cat /boot/dorfmap-presets.db > /srv/www/dorfmap/presets.db
