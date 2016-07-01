@@ -7,10 +7,12 @@ After=dorfmap-init.service
 Type=simple
 RemainAfterExit=yes
 PIDFile=/tmp/dorfmap.pid
-ExecStart=/usr/bin/hypnotoad /srv/www/dorfmap/index.pl -f
-ExecStop=/usr/bin/hypnotoad -s /srv/www/dorfmap/index.pl
-ExecReload=/usr/bin/hypnotoad /srv/www/dorfmap/index.pl
+ExecStart=/usr/bin/hypnotoad index.pl -f
+ExecStop=/usr/bin/hypnotoad -s index.pl
+ExecReload=/usr/bin/hypnotoad index.pl
 User=www-data
+Nice=-1
+WorkingDirectory=/srv/www/dorfmap
 
 [Install]
 WantedBy=multi-user.target
