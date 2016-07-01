@@ -1,6 +1,7 @@
 [Unit]
 Description=Dorfmap GPIO and /tmp setup
-After=network.target
+Requires=network.target
+After=dorfmap-init.service
 
 [Service]
 Type=oneshot
