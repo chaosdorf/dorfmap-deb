@@ -33,7 +33,6 @@ def update_configs():
         run('ln -fs /usr/share/munin/plugins/dorfmap_ /etc/munin/plugins/dorfmap_%s' % area)
 
     put('etc/inetd.conf', '/etc/inetd.conf')
-    put('etc/rc.local', '/etc/rc.local')
     for conf in ['dorfmap', 'feedback']:
         put('nginx/%s' % conf, '/etc/nginx/sites-available/%s' % conf)
         run('ln -fs ../sites-available/%s %s' % (conf, conf))

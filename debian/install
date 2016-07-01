@@ -1,6 +1,11 @@
 automatic_light_control/* etc/automatic_light_control/
 bin/* usr/bin/
+etc/systemd/dorfmap-bgdata.service etc/systemd/system/
+etc/systemd/bootsound.service etc/systemd/system/
+etc/systemd/door-init.service etc/systemd/system/
+etc/systemd/dorfmap-init.service etc/systemd/system/
 etc/systemd/fluksod.service etc/systemd/system/
 etc/systemd/mqttpushd.service etc/systemd/system/
 sbin/* usr/sbin/
 munin/* usr/share/munin/plugins/
+lib/* usr/lib/dorfmap/

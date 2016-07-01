@@ -1,0 +1,11 @@
+[Unit]
+Description=Flukso Daemon
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/dorfmap-bgdata
+User=www-data
+
+[Install]
+WantedBy=multi-user.target

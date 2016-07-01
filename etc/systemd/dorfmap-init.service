@@ -1,0 +1,11 @@
+[Unit]
+Description=Dorfmap GPIO and /tmp setup
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/dorfmap/init-dorfmap
+User=root
+
+[Install]
+WantedBy=multi-user.target
