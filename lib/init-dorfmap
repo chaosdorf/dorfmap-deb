@@ -6,8 +6,6 @@ gpioexport() {
 	chmod 666 /sys/class/gpio/gpio"$1"/value
 }
 
-tar -C /tmp -xf /root/gnupg.tar.xz
-
 touch /tmp/automatic_logo /tmp/automatic_outdoor /tmp/is_shutdown
 chown www-data:www-data /tmp/automatic_logo /tmp/automatic_outdoor /tmp/is_shutdown
 
@@ -107,13 +105,6 @@ if [ -e /boot/dorfmapstate.tar.xz ]; then
 	tar -C / -xJf /boot/dorfmapstate.tar.xz
 	rm /boot/dorfmapstate.tar.xz
 fi
-
-mkdir -p /srv/www/.ssh
-cat > /srv/www/.ssh/known_hosts <<EOF
-|1|cQGYDnnjiPooTNqa2nNgT4dF5ts=|Qx9VZj0XF/6/H8AdWK6opNDKZyg= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIdZeAnygRug1whpYgtXRyrwbxvvVTIy5arzNCQvAJuT63RU4QvCyqtHpNEBKYhnQtZt7Oq3p7R5h6WFICgFodo=
-|1|bSeqXEwoOzLhfUwrKDCcw5Ja7rY=|bHBAjWp39PuC+YABZeVGKuZGgYw= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIdZeAnygRug1whpYgtXRyrwbxvvVTIy5arzNCQvAJuT63RU4QvCyqtHpNEBKYhnQtZt7Oq3p7R5h6WFICgFodo=
-EOF
-chown www-data:www-data /srv/www/.ssh /srv/www/.ssh/known_hosts
 
 cd /srv/www
 rsync -a /root/dorfmap/ dorfmap/
