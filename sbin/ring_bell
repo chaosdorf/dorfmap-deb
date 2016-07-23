@@ -28,7 +28,9 @@ if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 		5) BFILE=doorbell5.m4a ;;
 	esac
 
-	flock -n /tmp/ringbellmp.lock mplayer -ao pulse:pulseaudio /usr/local/share/"${BFILE}" < /dev/null > /dev/null 2> /dev/null || exit
+	mosquitto_pub -h mqttserver -t 'space/bell' -m ringdingding &
+
+	flock -n /tmp/ringbellmp.lock mplayer -ao pulse:pulseaudio /usr/local/share/"${BFILE}" < /dev/null > /dev/null 2> /dev/null || exit 1
 
 elif [ "${line}" = openannounce ]; then
 
@@ -48,6 +50,8 @@ elif [ "${line}" = openannounce ]; then
 		1) AFILE=public2.wav ;;
 	esac
 
+	mosquitto_pub -h mqttserver -r -t 'door/status' -m open &
+
 	mplayer -volume 100 -ao pulse:pulseaudio /usr/local/share/"${AFILE}" < /dev/null > /dev/null 2> /dev/null
 
 elif [ "${line}" = closedannounce ]; then
@@ -65,6 +69,8 @@ elif [ "${line}" = closedannounce ]; then
 		0) AFILE=private.wav ;;
 		1) AFILE=private2.wav ;;
 	esac
+
+	mosquitto_pub -h mqttserver -r -t 'door/status' -m closed &
 
 	mplayer -volume 100 -ao pulse:pulseaudio /usr/local/share/"${AFILE}" < /dev/null > /dev/null 2> /dev/null
 
