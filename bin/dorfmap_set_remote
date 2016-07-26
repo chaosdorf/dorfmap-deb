@@ -74,6 +74,16 @@ else
 fi
 
 ;;
+beamer1)
+
+cd /tmp/beamer1
+if [ "$(cat "$2")" = 1 ]; then
+	echo -e "\x02PON\x03" | nc -w 1 beamercontrol 31337 &
+else
+	echo -e "\x02POF\x03" | nc -w 1 beamercontrol 31337 &
+fi
+
+;;
 
 *)
 

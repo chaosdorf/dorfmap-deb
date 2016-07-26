@@ -99,6 +99,13 @@ for i in 0 1 2 3; do
 	chmod 666 /tmp/helios1/$i
 done
 
+mkdir /tmp/beamer1
+chmod 777 /tmp/beamer1
+echo 0 > /tmp/beamer1/power
+chmod 666 /tmp/beamer1/power
+echo HD1 > /tmp/beamer1/input
+chmod 666 /tmp/beamer1/input
+
 dorfmap_get_amps
 
 if [ -e /boot/dorfmapstate.tar.xz ]; then
