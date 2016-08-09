@@ -8,3 +8,6 @@ cat > /srv/www/.ssh/known_hosts <<EOF
 |1|bSeqXEwoOzLhfUwrKDCcw5Ja7rY=|bHBAjWp39PuC+YABZeVGKuZGgYw= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIdZeAnygRug1whpYgtXRyrwbxvvVTIy5arzNCQvAJuT63RU4QvCyqtHpNEBKYhnQtZt7Oq3p7R5h6WFICgFodo=
 EOF
 chown www-data:www-data /srv/www/.ssh /srv/www/.ssh/known_hosts
+
+wget -O /tmp/cccd.ics --quiet 'https://chaosdorf.de/~derf/cccd.ics'
+chown www-data:www-data /tmp/cccd.ics

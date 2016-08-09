@@ -5,6 +5,7 @@ MAILTO=root
 
 # m    h   dom mon dow user      command
   59   *   *   *   *   www-data  nice gather_bgdata_door
+  58   *   *   *   *   www-data  wget -O /tmp/cccd.ics --quiet 'https://chaosdorf.de/~derf/cccd.ics'
   */6  *   *   *   *   www-data  nice automatic_light_control
   */6  *   *   *   *   root      nice raumstatus_update
   */4  *   *   *   *   www-data  nice gather_bgdata

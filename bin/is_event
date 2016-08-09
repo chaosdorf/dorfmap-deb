@@ -1,0 +1,37 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use 5.020;
+
+use DateTime;
+use DateTime::Format::Strptime;
+use Data::ICal;
+use File::Slurp qw(write_file);
+
+my $calendar = Data::ICal->new( filename => '/tmp/cccd.ics' );
+my $now = DateTime->now( time_zone => 'Europe/Berlin' )->epoch;
+my $strp = DateTime::Format::Strptime->new(
+	pattern   => '%Y%m%dT%H%M%S',
+	locale    => 'en_US',
+	time_zone => 'Europe/Berlin',
+);
+
+for my $entry ( @{ $calendar->entries } ) {
+	my $dtstart = $entry->properties->{dtstart}->[0]->decoded_value or next;
+	my $raw_duration = $entry->properties->{duration}->[0]->decoded_value
+	  or next;
+
+	my ($duration_hours) = ( $raw_duration =~ m{ PT (\d+) H  }x );
+
+	my $ts = $strp->parse_datetime($dtstart)->epoch or next;
+
+	my $delta = $now - $ts;
+
+	if ( $delta > 0 and $delta < ( $duration_hours * 3600 ) ) {
+		say "$dtstart, $delta, $raw_duration";
+		exit(0);
+	}
+}
+
+exit(1);
