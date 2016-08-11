@@ -1,0 +1,11 @@
+[Unit]
+Description=Edge Router SNMP getter daemon
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/snmpgetd
+User=www-data
+
+[Install]
+WantedBy=multi-user.target

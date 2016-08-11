@@ -1,0 +1,43 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use 5.020;
+
+use File::Slurp qw(read_file write_file);
+use SNMP;
+
+if ( not -d '/srv/www/snmp' ) {
+	mkdir('/srv/www/snmp');
+}
+
+my $rate      = 10;
+my $community = $ENV{SNMP_COMMUNITY}
+  // read_file('/etc/dorfmap/community.edge') // 'public';
+chomp($community);
+
+my $sess = SNMP::Session->new(
+	DestHost  => 'edge',
+	Community => $community,
+	Version   => 1,
+);
+
+my ( $prev_in, $prev_out ) = ( 0, 0 );
+
+while ( sleep($rate) ) {
+	my $ifname   = $sess->get('iso.3.6.1.2.1.2.2.1.2.8');
+	my $ifstatus = $sess->get('iso.3.6.1.2.1.2.2.1.8.8');
+	my $ifin     = $sess->get('iso.3.6.1.2.1.2.2.1.10.8');
+	my $ifout    = $sess->get('iso.3.6.1.2.1.2.2.1.16.8');
+
+	my $in_rate  = ( $ifin - $prev_in ) / $rate;
+	my $out_rate = ( $ifout - $prev_out ) / $rate;
+
+	if ( $in_rate >= 0 and $out_rate >= 0 ) {
+		write_file( '/srv/www/snmp/ops_in',  sprintf( '%.f', $in_rate ) );
+		write_file( '/srv/www/snmp/ops_out', sprintf( '%.f', $out_rate ) );
+	}
+
+	$prev_in  = $ifin;
+	$prev_out = $ifout;
+}
