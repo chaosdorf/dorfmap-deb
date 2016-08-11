@@ -9,5 +9,7 @@ cat > /srv/www/.ssh/known_hosts <<EOF
 EOF
 chown www-data:www-data /srv/www/.ssh /srv/www/.ssh/known_hosts
 
-wget -O /tmp/cccd.ics --quiet 'https://chaosdorf.de/~derf/cccd.ics'
+sleep 10
+
+wget -O /tmp/cccd.ics --quiet 'https://chaosdorf.de/~derf/cccd.ics' || true
 chown www-data:www-data /tmp/cccd.ics

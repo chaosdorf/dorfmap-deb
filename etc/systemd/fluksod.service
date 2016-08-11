@@ -6,6 +6,8 @@ After=network.target
 Type=simple
 ExecStart=/usr/bin/fluksod
 User=www-data
+Restart=on-failure
+RestartSec=10
 
 [Install]
 WantedBy=multi-user.target
