@@ -1,0 +1,48 @@
+#!/bin/sh
+
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+    cat <<'EOF'
+graph_order down up
+graph_title Edge Router Lite: IPv6 percentage of border traffic
+graph_args --base 1000
+graph_vlabel % of traffic in (-) / out (+)
+graph_category network
+graph_info This graph shows the percentage of IPv6 traffic compared to all traffic crossing the border between Edge Router Lite and modem
+down.label received
+down.cdef down,10,/
+down.graph no
+down.min 0
+up.label bps
+up.cdef up,10,/
+up.negative down
+up.min 0
+EOF
+    exit 0
+fi
+
+if [ -e /tmp/.munin_old_v4_out ]; then
+	V4ODIF=$(( $(cat /srv/www/snmp/bond0.2_out) - $(cat /tmp/.munin_old_v4_out) ))
+	V4IDIF=$(( $(cat /srv/www/snmp/bond0.2_in) - $(cat /tmp/.munin_old_v4_in) ))
+	V6ODIF=$(( $(cat /srv/www/snmp/tun0_out) - $(cat /tmp/.munin_old_v6_out) ))
+	V6IDIF=$(( $(cat /srv/www/snmp/tun0_in) - $(cat /tmp/.munin_old_v6_in) ))
+
+	echo down.value $(( ( V6IDIF * 1000 ) / ( V6IDIF + V4IDIF ) ))
+	echo up.value $(( ( V6ODIF * 1000 ) / ( V6ODIF + V4ODIF ) ))
+
+else
+	echo down.value 0
+	echo up.value 0
+fi
+
+cp /srv/www/snmp/bond0.2_out /tmp/.munin_old_v4_out
+cp /srv/www/snmp/bond0.2_in /tmp/.munin_old_v4_in
+cp /srv/www/snmp/tun0_out /tmp/.munin_old_v6_out
+cp /srv/www/snmp/tun0_in /tmp/.munin_old_v6_in
