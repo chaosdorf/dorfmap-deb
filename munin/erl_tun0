@@ -1,0 +1,37 @@
+#!/bin/sh
+
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+    cat <<'EOF'
+graph_order down up
+graph_title Edge Router Lite IPv6 traffic
+graph_args --base 1000
+graph_vlabel bits in (-) / out (+) per second
+graph_category network
+graph_info This graph shows the traffic of the Edge Router Lite IPv6 network interface (tun0)
+down.label received
+down.type DERIVE
+down.graph no
+down.cdef down,8,*
+down.min 0
+up.label bps
+up.type DERIVE
+up.negative down
+up.cdef up,8,*
+up.min 0
+EOF
+    exit 0
+fi
+
+UP="$(cat /srv/www/snmp/tun0_out)"
+DOWN="$(cat /srv/www/snmp/tun0_in)";
+
+echo down.value "${DOWN}"
+echo up.value "${UP}"
