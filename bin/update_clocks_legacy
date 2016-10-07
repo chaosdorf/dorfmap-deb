@@ -3,12 +3,15 @@
 if [ -e /tmp/is_shutdown ]; then
 	echo ' off' | flock -x -n /run/lock/feedback1.lock si2c-charwrite-legacy 21 20 0 5
 	date +'_ %H.%M_ %H%M' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 16
+	echo '   .   ' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 17
 else
 	echo ' avg' | flock -x -n /run/lock/feedback1.lock si2c-charwrite-legacy 21 20 0 5
 	if [ "$(cat /srv/www/doorstatus)" = open ]; then
 		date +'P %H.%MP %H%M' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 16
+		date +'%H %M %H %M ' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 17
 	else
 		date +'%H . %M%H  %M' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 16
+		date +'%H %M %H %M ' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 17
 	fi
 fi
 
