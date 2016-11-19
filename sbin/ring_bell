@@ -7,12 +7,19 @@ read line;
 if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 
 	echo 1 > /tmp/feedback1/13
+	echo 1 > /tmp/feedback8/bin1
 	dorfmap_set_remote feedback1
+	dorfmap_set_remote feedback8
 
 	(
 	sleep 12
 	echo 0 > /tmp/feedback1/13
 	dorfmap_set_remote feedback1
+	) &
+	(
+	sleep 4
+	echo 0 > /tmp/feedback8/bin1
+	dorfmap_set_remote feedback8
 	) &
 
 	if [ -z "$RANDOM" ]; then
