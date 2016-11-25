@@ -21,6 +21,9 @@ if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 	echo 0 > /tmp/feedback8/bin1
 	dorfmap_set_remote feedback8
 	) &
+	(
+	echo ' bell       ' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 16
+	) &
 
 	if [ -z "$RANDOM" ]; then
 		RANDOM=$(dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -c"1-5")
