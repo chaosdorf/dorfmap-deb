@@ -10,8 +10,8 @@ fi
 
 if [ "$1" = "config" ]; then
 
-	echo 'graph_title temperatures'
-	echo 'graph_vlabel temperatures'
+	echo 'graph_title system temperatures'
+	echo 'graph_vlabel deg C'
 	echo 'graph_category sensors'
 	echo 'cpu.label CPU'
 
