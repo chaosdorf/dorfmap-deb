@@ -1,0 +1,23 @@
+#!/bin/sh
+
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+
+	echo 'graph_title room temperatures'
+	echo 'graph_vlabel deg C'
+	echo 'graph_category sensors'
+	echo 'lfridge.label left fridge'
+
+	exit 0
+fi
+
+TEMP="$(cat /srv/www/mqtt/lfridge)"
+
+echo lfridge.value "$TEMP"
