@@ -27,7 +27,7 @@ my @interfaces = (
 	[ 'bond0.2', 8 ],
 	[ 'bond0.1', 9 ],
 	[ 'bond0.6', 10 ],
-	[ 'tun0',    12 ],
+	[ 'sit0',    11 ],
 );
 
 my ( $prev_in, $prev_out ) = ( 0, 0 );

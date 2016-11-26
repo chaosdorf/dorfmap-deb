@@ -29,6 +29,7 @@ EOF
 fi
 
 if [ -e /tmp/.munin_old_v4_out ]; then
+	(
 	V4ODIF=$(( $(cat /srv/www/snmp/bond0.2_out) - $(cat /tmp/.munin_old_v4_out) ))
 	V4IDIF=$(( $(cat /srv/www/snmp/bond0.2_in) - $(cat /tmp/.munin_old_v4_in) ))
 	V6ODIF=$(( $(cat /srv/www/snmp/tun0_out) - $(cat /tmp/.munin_old_v6_out) ))
@@ -36,6 +37,7 @@ if [ -e /tmp/.munin_old_v4_out ]; then
 
 	echo down.value $(( ( V6IDIF * 1000 ) / ( V6IDIF + V4IDIF ) ))
 	echo up.value $(( ( V6ODIF * 1000 ) / ( V6ODIF + V4ODIF ) ))
+	)
 
 else
 	echo down.value 0
