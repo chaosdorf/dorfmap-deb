@@ -1,0 +1,37 @@
+#!/usr/bin/env perl
+
+#%# family=auto
+#%# capabilities=autoconf
+
+use strict;
+use warnings;
+use 5.014;
+use utf8;
+
+use JSON;    # automatically uses JSON::XS if available
+use LWP::Simple;
+
+my $raw_json = get('http://mete/users/stats.json');
+my $json = from_json($raw_json);
+
+if ( @ARGV and $ARGV[0] eq 'autoconf' ) {
+	if ($json) {
+		say 'yes';
+		exit 0;
+	}
+	say 'no (unable to find a running mete instance)';
+	exit 0;
+}
+
+if ( @ARGV and $ARGV[0] eq 'config' ) {
+	say 'graph_title METE users';
+	say 'graph_vlabel user count';
+	say 'graph_info Amount of registered METE users';
+	say 'graph_category other';
+	say 'users.label users';
+	exit 0;
+}
+
+if (exists $json->{user_count}) {
+	printf("users.value %.2f\n", $json->{user_count});
+}
