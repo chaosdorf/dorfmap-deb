@@ -1,0 +1,38 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use 5.010;
+
+use File::Slurp qw(write_file);
+use LWP::UserAgent;
+
+our $VERSION = '0.01';
+
+my $ua = LWP::UserAgent->new;
+$ua->timeout(5);
+
+sub spew {
+	my ( $file, $value ) = @_;
+
+	return write_file( $file, { err_mode => 'quiet' }, "${value}\n" );
+}
+
+spew('/tmp/feedback3/9', 1);
+system('dorfmap_set_remote', 'feedback3');
+
+sleep(7);
+
+my $res = $ua->get('http://172.22.27.93/?uled=on');
+
+if ($res->is_success) {
+	my $data = $res->content;
+	my ($temp, $lsb) = ($data =~ m{ temph = (\d+) \n templ = (\d+) }x);
+	if ($lsb > 127) {
+		$temp += 0.5;
+	}
+	spew('/srv/www/bgdata/lounge_screen_temp', $temp);
+}
+
+spew('/tmp/feedback3/9', 0);
+system('dorfmap_set_remote', 'feedback3');

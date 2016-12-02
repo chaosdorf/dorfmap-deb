@@ -9,5 +9,6 @@ MAILTO=root
   */6  *   *   *   *   www-data  nice automatic_light_control
   */6  *   *   *   *   root      nice raumstatus_update
   */4  *   *   *   *   www-data  nice gather_bgdata
+  */5  *   *   *   *   www-data  nice gather_bgdata_tmp
   *    *   *   *   *   www-data  update_www_status
   *    *   *   *   *   www-data  update_clocks
