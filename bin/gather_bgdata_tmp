@@ -5,6 +5,7 @@ use warnings;
 use 5.010;
 
 use File::Slurp qw(write_file);
+use List::Util qw(sum);
 use LWP::UserAgent;
 
 our $VERSION = '0.01';
@@ -18,21 +19,33 @@ sub spew {
 	return write_file( $file, { err_mode => 'quiet' }, "${value}\n" );
 }
 
-spew('/tmp/feedback3/9', 1);
-system('dorfmap_set_remote', 'feedback3');
+spew( '/tmp/feedback3/9', 1 );
+system( 'dorfmap_set_remote', 'feedback3' );
 
 sleep(7);
 
-my $res = $ua->get('http://172.22.27.93/?uled=on');
+my @temps;
 
-if ($res->is_success) {
-	my $data = $res->content;
-	my ($temp, $lsb) = ($data =~ m{ temph = (\d+) \n templ = (\d+) }x);
-	if ($lsb > 127) {
-		$temp += 0.5;
+for my $i ( 0 .. 12 ) {
+	my $res = $ua->get('http://172.22.27.93/?uled=on');
+
+	if ( $res->is_success ) {
+		my $data = $res->content;
+		my ( $temp, $lsb ) = ( $data =~ m{ temph = (\d+) \n templ = (\d+) }x );
+		if ( $lsb > 127 ) {
+			$temp += 0.5;
+		}
+		push( @temps, $temp );
 	}
-	spew('/srv/www/bgdata/lounge_screen_temp', $temp);
+
+	sleep(1);
 }
 
-spew('/tmp/feedback3/9', 0);
-system('dorfmap_set_remote', 'feedback3');
+if (@temps) {
+	my $temp = sum(@temps) / @temps;
+
+	spew( '/srv/www/bgdata/lounge_screen_temp', $temp );
+}
+
+spew( '/tmp/feedback3/9', 0 );
+system( 'dorfmap_set_remote', 'feedback3' );
