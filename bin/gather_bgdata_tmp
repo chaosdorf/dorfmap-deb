@@ -27,7 +27,7 @@ sleep(7);
 my @temps;
 
 for my $i ( 0 .. 12 ) {
-	my $res = $ua->get('http://172.22.27.93/?uled=on');
+	my $res = $ua->get('http://172.22.26.14/?uled=on');
 
 	if ( $res->is_success ) {
 		my $data = $res->content;
