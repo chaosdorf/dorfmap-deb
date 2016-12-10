@@ -1,0 +1,27 @@
+#!/bin/sh
+
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+
+	echo 'graph_title space brightness'
+	echo 'graph_vlabel relative brightness'
+	echo 'graph_category sensors'
+	echo 'lounge.label Lounge'
+
+	exit 0
+fi
+
+LOUNGE="$(cat /srv/www/bgdata/lounge_screen_brightness)"
+
+if [ -z "$LOUNGE" ]; then
+	return 0
+fi
+
+echo lounge.value "$LOUNGE"
