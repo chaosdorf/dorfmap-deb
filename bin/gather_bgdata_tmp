@@ -19,38 +19,46 @@ sub spew {
 	return write_file( $file, { err_mode => 'quiet' }, "${value}\n" );
 }
 
-spew( '/tmp/feedback3/9', 1 );
-system( 'dorfmap_set_remote', 'feedback3' );
+sub get_sensor {
+	my ( $bus, $id, $ip, $name ) = @_;
 
-sleep(7);
+	spew( "/tmp/${bus}/${id}", 1 );
+	system( 'dorfmap_set_remote', $bus );
 
-my @temps;
-my @brightness;
+	sleep(7);
 
-for my $i ( 0 .. 12 ) {
-	my $res = $ua->get('http://172.22.26.14/?uled=on');
+	my @temps;
+	my @brightness;
 
-	if ( $res->is_success ) {
-		my $data = $res->content;
-		my ( $temp, $lsb ) = ( $data =~ m{ temph = (\d+) \n templ = (\d+) }x );
-		my ($brightness) = ( $data =~ m{ brightness = (\d+) \n }x );
-		if ( $lsb > 127 ) {
-			$temp += 0.5;
+	for my $i ( 0 .. 12 ) {
+		my $res = $ua->get("http://${ip}/?uled=on");
+
+		if ( $res->is_success ) {
+			my $data = $res->content;
+			my ( $temp, $lsb )
+			  = ( $data =~ m{ temph = (\d+) \n templ = (\d+) }x );
+			my ($brightness) = ( $data =~ m{ brightness = (\d+) \n }x );
+			if ( $lsb > 127 ) {
+				$temp += 0.5;
+			}
+			push( @temps,      $temp );
+			push( @brightness, $brightness );
 		}
-		push( @temps,      $temp );
-		push( @brightness, $brightness );
+
+		sleep(1);
 	}
 
-	sleep(1);
+	if (@temps) {
+		my $temp       = sum(@temps) / @temps;
+		my $brightness = sum(@brightness) / @brightness;
+
+		spew( "/srv/www/bgdata/${name}_temp",       $temp );
+		spew( "/srv/www/bgdata/${name}_brightness", $brightness );
+	}
+
+	spew( "/tmp/${bus}/${id}", 0 );
+	system( 'dorfmap_set_remote', $bus );
 }
 
-if (@temps) {
-	my $temp       = sum(@temps) / @temps;
-	my $brightness = sum(@brightness) / @brightness;
-
-	spew( '/srv/www/bgdata/lounge_screen_temp',       $temp );
-	spew( '/srv/www/bgdata/lounge_screen_brightness', $brightness );
-}
-
-spew( '/tmp/feedback3/9', 0 );
-system( 'dorfmap_set_remote', 'feedback3' );
+get_sensor( 'feedback3', '9',    '172.22.26.14', 'lounge_screen' );
+get_sensor( 'feedback9', 'bin7', '172.22.26.15', 'hackcenter' );

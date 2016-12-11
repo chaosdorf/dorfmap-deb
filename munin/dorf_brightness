@@ -14,14 +14,17 @@ if [ "$1" = "config" ]; then
 	echo 'graph_vlabel relative brightness'
 	echo 'graph_category sensors'
 	echo 'lounge.label Lounge'
+	echo 'hackcenter.label Hackcenter'
 
 	exit 0
 fi
 
 LOUNGE="$(cat /srv/www/bgdata/lounge_screen_brightness)"
+HACKCENTER="$(cat /srv/www/bgdata/hackcenter_brightness)"
 
-if [ -z "$LOUNGE" ]; then
-	return 0
+if [ -n "$LOUNGE" ]; then
+	echo lounge.value "$LOUNGE"
 fi
-
-echo lounge.value "$LOUNGE"
+if [ -n "$HACKCENTER" ]; then
+	echo hackcenter.value "$HACKCENTER"
+fi
