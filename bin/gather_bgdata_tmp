@@ -31,7 +31,7 @@ sub get_sensor {
 	my @brightness;
 
 	for my $i ( 0 .. 12 ) {
-		my $res = $ua->get("http://${ip}/?uled=on");
+		my $res = $ua->get("http://${ip}/");
 
 		if ( $res->is_success ) {
 			my $data = $res->content;
