@@ -20,7 +20,7 @@ down.label received
 down.cdef down,10,/
 down.graph no
 down.min 0
-up.label bps
+up.label %
 up.cdef up,10,/
 up.negative down
 up.min 0
