@@ -32,7 +32,7 @@ my @interfaces = (
 
 my ( $prev_in, $prev_out ) = ( 0, 0 );
 
-while ( sleep($rate) ) {
+while (1) {
 	for my $interface (@interfaces) {
 		my ( $if_name, $if_num ) = @{$interface};
 
@@ -59,4 +59,5 @@ while ( sleep($rate) ) {
 		write_file( "/srv/www/snmp/${if_name}_in",  $snmp_in );
 		write_file( "/srv/www/snmp/${if_name}_out", $snmp_out );
 	}
+	sleep($rate);
 }

@@ -50,7 +50,7 @@ mkdir($out_prefix);
 
 my $loop_cnt = 0;
 
-while ( sleep(1) ) {
+while (1) {
 
 	my %sums;
 
@@ -118,4 +118,5 @@ while ( sleep(1) ) {
 			}
 		}
 	}
+	sleep(1);
 }

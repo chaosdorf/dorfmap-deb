@@ -79,7 +79,7 @@ sub ping_host {
 	return;
 }
 
-while ( sleep(120) ) {
+while (1) {
 
 	my %autooff;
 
@@ -125,6 +125,7 @@ while ( sleep(120) ) {
 		write_file( '/srv/www/doorstatus', -1 );
 	}
 
+	sleep(120);
 }
 
 __END__
