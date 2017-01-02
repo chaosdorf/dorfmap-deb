@@ -20,17 +20,23 @@ sub slurp {
 	return $content;
 }
 
-if ( not -d $mqtt_prefix ) {
+if (not -d $mqtt_prefix) {
 	mkdir($mqtt_prefix);
 }
 
 $mqtt->run(
 	'sensors/+/temperature' => sub {
-		my ( $topic, $message ) = @_;
-		my ($sensor)
-		  = ( $topic =~ m{ ^ sensors / ( [a-zA-Z0-9_-]+ ) / temperature $ }x );
-		if ( $message > -20 ) {
-			write_file( "${mqtt_prefix}/${sensor}", $message );
+		my ($topic, $message) = @_;
+		my ($sensor) = ($topic =~ m{ ^ sensors / ( [a-zA-Z0-9_-]+ ) / temperature $ }x);
+		if ($message > -20) {
+			write_file("${mqtt_prefix}/${sensor}.degc", $message);
+		}
+	},
+	'sensors/+/luchs' => sub {
+		my ($topic, $message) = @_;
+		my ($sensor) = ($topic =~ m{ ^ sensors / ( [a-zA-Z0-9_-]+ ) / luchs $ }x);
+		if ($message >= 0) {
+			write_file("${mqtt_prefix}/${sensor}.lux", $message);
 		}
 	}
 );
