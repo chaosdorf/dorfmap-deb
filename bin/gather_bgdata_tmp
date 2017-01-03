@@ -7,10 +7,12 @@ use 5.010;
 use File::Slurp qw(write_file);
 use List::Util qw(sum);
 use LWP::UserAgent;
+use Net::MQTT::Simple;
 
 our $VERSION = '0.01';
 
-my $ua = LWP::UserAgent->new;
+my $ua   = LWP::UserAgent->new;
+my $mqtt = Net::MQTT::Simple->new('mqttserver');
 $ua->timeout(5);
 
 sub spew {
@@ -38,9 +40,7 @@ sub get_sensor {
 			my ( $temp, $lsb )
 			  = ( $data =~ m{ temph = (\d+) \n templ = (\d+) }x );
 			my ($brightness) = ( $data =~ m{ brightness = (\d+) \n }x );
-			if ( $lsb > 127 ) {
-				$temp += 0.5;
-			}
+			$temp += $lsb / 256;
 			push( @temps,      $temp );
 			push( @brightness, $brightness );
 		}
@@ -54,6 +54,10 @@ sub get_sensor {
 
 		spew( "/srv/www/bgdata/${name}_temp",       $temp );
 		spew( "/srv/www/bgdata/${name}_brightness", $brightness );
+		$mqtt->publish(
+			"sensors/${name}/temperature" => sprintf( '%.3f', $temp ) );
+		$mqtt->publish(
+			"sensors/${name}/brightness" => sprintf( '%.3f', $brightness ) );
 	}
 
 	spew( "/tmp/${bus}/${id}", 0 );
