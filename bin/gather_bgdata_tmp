@@ -66,3 +66,4 @@ sub get_sensor {
 
 get_sensor( 'feedback3', '9',    '172.22.26.14', 'lounge_screen' );
 get_sensor( 'feedback9', 'bin7', '172.22.26.15', 'hackcenter' );
+get_sensor( 'feedback8', 'bin3', '172.22.26.16', 'maschinenraum' );

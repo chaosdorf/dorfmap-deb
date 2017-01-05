@@ -15,16 +15,21 @@ if [ "$1" = "config" ]; then
 	echo 'graph_category sensors'
 	echo 'lounge.label Lounge'
 	echo 'hackcenter.label Hackcenter'
+	echo 'maschinenraum.label Maschinenraum'
 
 	exit 0
 fi
 
 LOUNGE="$(cat /srv/www/bgdata/lounge_screen_brightness)"
 HACKCENTER="$(cat /srv/www/bgdata/hackcenter_brightness)"
+MASCHINENRAUM="$(cat /srv/www/bgdata/maschinenraum_brightness)"
 
 if [ -n "$LOUNGE" ]; then
 	echo lounge.value "$LOUNGE"
 fi
 if [ -n "$HACKCENTER" ]; then
 	echo hackcenter.value "$HACKCENTER"
+fi
+if [ -n "$MASCHINENRAUM" ]; then
+	echo Maschinenraum.value "$MASCHINENRAUM"
 fi
