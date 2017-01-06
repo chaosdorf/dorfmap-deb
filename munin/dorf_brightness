@@ -16,6 +16,7 @@ if [ "$1" = "config" ]; then
 	echo 'lounge.label Lounge'
 	echo 'hackcenter.label Hackcenter'
 	echo 'maschinenraum.label Maschinenraum'
+	echo 'nomspace.label Nomspace'
 
 	exit 0
 fi
@@ -23,6 +24,7 @@ fi
 LOUNGE="$(cat /srv/www/bgdata/lounge_screen_brightness)"
 HACKCENTER="$(cat /srv/www/bgdata/hackcenter_brightness)"
 MASCHINENRAUM="$(cat /srv/www/bgdata/maschinenraum_brightness)"
+NOMSPACE="$(cat /srv/www/bgdata/nomspace_brightness)"
 
 if [ -n "$LOUNGE" ]; then
 	echo lounge.value "$LOUNGE"
@@ -31,5 +33,8 @@ if [ -n "$HACKCENTER" ]; then
 	echo hackcenter.value "$HACKCENTER"
 fi
 if [ -n "$MASCHINENRAUM" ]; then
-	echo Maschinenraum.value "$MASCHINENRAUM"
+	echo maschinenraum.value "$MASCHINENRAUM"
+fi
+if [ -n "$NOMSPACE" ]; then
+	echo nomspace.value "$NOMSPACE"
 fi
