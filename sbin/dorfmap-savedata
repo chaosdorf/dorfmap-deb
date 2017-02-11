@@ -3,4 +3,4 @@
 cp /srv/www/dorfmap/presets.db /boot/dorfmap-presets.db
 cp /srv/www/dorfmap/blinkencontrol.db /boot/dorfmap-blinkencontrol.db
 
-tar -cJf /boot/dorfmapstate.tar.xz /tmp/donationprint* /tmp/feedback* /srv/www/stored
+tar -cJf /boot/dorfmapstate.tar.xz /tmp/donationprint* /tmp/feedback*
