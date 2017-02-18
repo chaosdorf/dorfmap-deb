@@ -37,4 +37,13 @@ closed*) echo status.value 0 ;;
 *) echo status.value -1 ;;
 esac
 
-echo shutdown.value "$(cat /srv/www/is_shutdown || echo -1)"
+if [ -e /tmp/is_shutdown ]; then
+	if curl -s -m 4 http://dorfmap/status/info.json | python -c \
+			'import sys, json; sys.exit(json.load(sys.stdin)["powered_areas"] == 0)'; then
+		echo shutdown.value 0.5
+	else
+		echo shutdown.value 1
+	fi
+else
+	echo shutdown.value 0
+fi
