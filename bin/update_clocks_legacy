@@ -1,15 +1,15 @@
 #!/bin/sh
 
 if [ -e /tmp/is_shutdown ]; then
-	date +'_ %H.%M_ %H%M' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 16
-	echo '   .   ' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 17
+	date +'_ %H.%M_ %H%M' | dorfmap_charwrite 0 16
+	echo '   .   ' | dorfmap_charwrite 0 17
 else
 	if [ "$(cat /srv/www/doorstatus)" = open ]; then
-		date +'P %H.%MP %H%M' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 16
-		date +'%H %M %H %M ' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 17
+		date +'P %H.%MP %H%M' | dorfmap_charwrite 0 16
+		date +'%H %M %H %M ' | dorfmap_charwrite 0 17
 	else
-		date +'%H . %M%H  %M' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 16
-		date +'%H %M %H %M ' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 17
+		date +'%H . %M%H  %M' | dorfmap_charwrite 0 16
+		date +'%H %M %H %M ' | dorfmap_charwrite 0 17
 	fi
 fi
 
@@ -20,7 +20,7 @@ for i in 0 10 20 30 40 50; do
 		PWR=' ----  ----             '
 	fi
 
-	echo "${PWR}" | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 19 || exit 0
+	echo "${PWR}" | dorfmap_charwrite 0 19 || exit 0
 
 	sleep 10
 done

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+BYTECOUNT="$(cat /srv/www/bgdata/fb1_tx_bytes || echo 0)"
+echo "$(( BYTECOUNT + 50 ))" > /srv/www/bgdata/fb1_tx_bytes
+
+exec flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 "$1" "$2"

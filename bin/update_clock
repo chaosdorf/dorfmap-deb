@@ -7,7 +7,7 @@ propagate() {
 	if [ "$2" = donationprint ]; then
 		echo "charwritelolwat\n$1" | nc -w 1 donationprint 1337
 	else
-		echo "$1" | flock -x -w 3 /run/lock/feedback1.lock si2c-charwrite 21 20 "$2" "$3"
+		echo "$1" | dorfmap_charwrite "$2" "$3"
 	fi
 }
 

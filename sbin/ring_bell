@@ -22,20 +22,21 @@ if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 	dorfmap_set_remote feedback8
 	) &
 	(
-	echo ' bell       ' | flock -x -n /run/lock/feedback1.lock si2c-charwrite 21 20 0 16
+	echo ' bell       ' | dorfmap_charwrite 0 16
 	) &
 
 	if [ -z "$RANDOM" ]; then
 		RANDOM=$(dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -c"1-5")
 	fi
 
-	case $(( RANDOM % 6 )) in
+	case $(( RANDOM % 7 )) in
 		0) BFILE=doorbell1.wav ;;
 		1) BFILE=doorbell1.wav ;;
 		2) BFILE=doorbell2.m4a ;;
 		3) BFILE=doorbell3.ogg ;;
 		4) BFILE=doorbell4.mp3 ;;
 		5) BFILE=doorbell5.m4a ;;
+		6) BFILE=doorbell6.wav ;;
 	esac
 
 	mosquitto_pub -h mqttserver -t 'space/bell' -m ringdingding &
