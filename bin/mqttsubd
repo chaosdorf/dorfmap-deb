@@ -32,6 +32,13 @@ $mqtt->run(
 			write_file("${mqtt_prefix}/${sensor}.degc", $message);
 		}
 	},
+	'sensors/+/temperature/+' => sub {
+		my ($topic, $message) = @_;
+		my ($sensor, $subsensor) = ($topic =~ m{ ^ sensors / ( [a-zA-Z0-9_-]+ ) / temperature / ( [a-zA-Z0-9_-]+ ) $ }x);
+		if ($message > -20) {
+			write_file("${mqtt_prefix}/${sensor}_${subsensor}.degc", $message);
+		}
+	},
 	'sensors/+/luchs' => sub {
 		my ($topic, $message) = @_;
 		my ($sensor) = ($topic =~ m{ ^ sensors / ( [a-zA-Z0-9_-]+ ) / luchs $ }x);
