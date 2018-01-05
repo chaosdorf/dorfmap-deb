@@ -10,6 +10,7 @@ TEMP_MASCHINENRAUM="$(cat /srv/www/mqtt/maschinenraum.degc)"
 POWER_P1="$(cat /srv/www/flukso/30_p1)"
 POWER_P2="$(cat /srv/www/flukso/30_p2)"
 POWER_P3="$(cat /srv/www/flukso/30_p3)"
+RAUMSTATUS="$(cat /srv/www/is_shutdown)"
 
 DOORSTATUS=0
 
@@ -31,6 +32,7 @@ clubraum_power{gauge="p2"} $POWER_P2
 clubraum_power{gauge="p3"} $POWER_P3
 
 clubraum_door $DOORSTATUS
+clubraum_shutdown $RAUMSTATUS
 
 EOF
 
