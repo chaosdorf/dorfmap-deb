@@ -12,6 +12,11 @@ POWER_P2="$(cat /srv/www/flukso/30_p2)"
 POWER_P3="$(cat /srv/www/flukso/30_p3)"
 RAUMSTATUS="$(cat /srv/www/is_shutdown)"
 
+HOSTS_DYNAMIC="$(cat /srv/www/bgdata/hosts_dynamic)"
+HOSTS_MANAGEMENT="$(cat /srv/www/bgdata/hosts_management)"
+HOSTS_TOTAL="$(cat /srv/www/bgdata/hosts_total)"
+HOSTS_STATIC="$(cat /srv/www/bgdata/hosts_static)"
+
 DOORSTATUS=0
 
 if [ "$(cat /srv/www/doorstatus)" = open ]; then
@@ -30,6 +35,10 @@ clubraum_temp_celsius{location="maschinenraum",type="ambient"} $TEMP_MASCHINENRA
 clubraum_power{gauge="p1"} $POWER_P1
 clubraum_power{gauge="p2"} $POWER_P2
 clubraum_power{gauge="p3"} $POWER_P3
+
+clubraum_hosts{net="dhcp"} $HOSTS_DYNAMIC
+clubraum_hosts{net="management"} $HOSTS_MANAGEMENT
+clubraum_hosts{net="static"} $HOSTS_STATIC
 
 clubraum_door $DOORSTATUS
 clubraum_shutdown $RAUMSTATUS
