@@ -1,0 +1,67 @@
+@startuml
+[Web frontend]
+note right of "Web frontend"
+- Overview map
+- Commands and presets
+- Live Updates
+end note
+
+package "Host: Feedback" {
+    [Cron]
+
+    [NGINX]
+    note bottom of "NGINX"
+    Port 80
+    - Delivers static assets
+    - Reverse proxy applications
+    end note
+
+    [Hypnotoad]
+    note bottom of "Hypnotoad"
+    Port 8081
+    - API Server
+    - Rate Limiting
+    - Anti-Idiot-Layer
+    - Device State Management
+    end note
+
+    [Primus]
+    note bottom of "Primus"
+    Port 3001
+    - Delivers JavaScript frontend
+    - ???
+    end note
+
+    [Backend]
+    note bottom of "Backend"
+    Shellscripts
+    - Door status
+    - dorfbus clock
+    - Device switching
+    - Automatic light control
+    - Blinkencontrol
+    - Map device names to adresses
+    end note
+
+    [Bus driver]
+    note right of "Bus driver"
+    System binaries
+    - si2c-* commands
+    - dorfbus protocol, timing
+    end note
+
+    [GPIOs]
+    [/tmp]
+}
+
+[Web frontend] <--> [NGINX] : HTTP
+[NGINX] <-left-> [Primus] : HTTP
+[NGINX] <-right-> [Hypnotoad] : HTTP
+
+[Cron] --> [Backend] : Scheduled actions
+[Hypnotoad] --> [/tmp] : Read/Write state
+[Hypnotoad] --> [Backend] : Apply state to dorfbus
+[Backend] --> [/tmp] : Read desired state
+[Backend] --> [Bus driver] : Send commands
+[Bus driver] --> [GPIOs] : Bitbang commands
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+actor "Hacker"
+
+package "User Device" {
+    [Web frontend]
+}
+
+package "Host: Feedback" {
+    [Backend]
+    [GPIOs]
+}
+
+package "Eletrical Wiring" {
+    [Dorfbus]
+    [Device]
+}
+
+[Hacker] .right.> [Web frontend] : Click
+[Web frontend] <-right-> [Backend] : HTTP
+[Backend] -right-> [GPIOs] : Bitbanging
+[GPIOs] --> [Dorfbus] : Eletrical signals
+[Dorfbus] --> [Device] : Switch device e.g. avrshift
+@enduml
