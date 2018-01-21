@@ -2,4 +2,5 @@
 /debian/dorfmap-deb
 /debian/dorfmap-deb.substvars
 /debian/dorfmap-deb.debhelper.log
-/fabfile.pyc
+/.vagrant
+*.pyc
