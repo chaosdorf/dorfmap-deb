@@ -8,7 +8,7 @@ logo_on() {
 		touch /tmp/logo_is_on
 		for i in 0 1 2 3 4 5 6 7 8 16 32 64 128 255; do
 			echo $i > /tmp/feedback7/pwm0
-			dorfmap_set_remote feedback7
+			/usr/lib/dorfmap/dorfbus-write feedback7
 			sleep 5
 		done
 	fi
@@ -22,7 +22,7 @@ logo_off() {
 		touch /tmp/logo_is_off
 		for i in 255 128 64 32 16 8 7 6 5 4 3 2 1 0; do
 			echo $i > /tmp/feedback7/pwm0
-			dorfmap_set_remote feedback7
+			/usr/lib/dorfmap/dorfbus-write feedback7
 			sleep 5
 		done
 	fi
@@ -34,7 +34,7 @@ if [ -e /tmp/is_shutdown ]; then
 	rm -f /tmp/logo_is_on /tmp/logo_is_off
 else
 	if [ -e /tmp/automatic_outdoor ]; then
-		if is_sundown -d $(cat /etc/automatic_light_control/outdoor); then
+		if is_sundown -d $(cat /etc/dorfmap/lights/outdoor); then
 			echo 1 > /tmp/feedback10/bin3
 		else
 			echo 0 > /tmp/feedback10/bin3
@@ -43,7 +43,7 @@ else
 		echo 0 > /tmp/feedback10/bin3
 	fi
 	if [ -e /tmp/automatic_logo ]; then
-		if is_sundown -d $(cat /etc/automatic_light_control/logo); then
+		if is_sundown -d $(cat /etc/dorfmap/lights/logo); then
 			logo_on
 		else
 			logo_off
@@ -54,7 +54,7 @@ else
 fi
 
 if [ -e /tmp/automatic_schaufenster ]; then
-	if is_sundown -d $(cat /etc/automatic_light_control/schaufenster); then
+	if is_sundown -d $(cat /etc/dorfmap/lights/schaufenster); then
 		echo 1 > /tmp/feedback10/bin4
 	else
 		echo 0 > /tmp/feedback10/bin4
@@ -63,5 +63,5 @@ else
 	echo 0 > /tmp/feedback10/bin4
 fi
 
-dorfmap_set_remote feedback7
-dorfmap_set_remote feedback10
+/usr/lib/dorfmap/dorfbus-write feedback7
+/usr/lib/dorfmap/dorfbus-write feedback10

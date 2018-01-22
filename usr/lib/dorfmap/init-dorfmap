@@ -113,7 +113,7 @@ chmod 666 /tmp/beamer1/power
 echo HD1 > /tmp/beamer1/input
 chmod 666 /tmp/beamer1/input
 
-dorfmap_get_amps
+/usr/lib/dorfmap/get-amp-status
 
 if [ -e /boot/dorfmapstate.tar.xz ]; then
 	tar -C / -xJf /boot/dorfmapstate.tar.xz

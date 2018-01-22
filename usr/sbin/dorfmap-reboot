@@ -1,0 +1,7 @@
+#!/bin/sh
+
+/usr/lib/dorfmap/dorfmap-savedata
+
+sleep 2
+
+exec reboot

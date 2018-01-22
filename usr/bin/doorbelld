@@ -8,18 +8,18 @@ if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 
 	echo 1 > /tmp/feedback1/13
 	echo 1 > /tmp/feedback8/bin1
-	dorfmap_set_remote feedback1
-	dorfmap_set_remote feedback8
+	/usr/lib/dorfmap/dorfbus-write feedback1
+	/usr/lib/dorfmap/dorfbus-write feedback8
 
 	(
 	sleep 12
 	echo 0 > /tmp/feedback1/13
-	dorfmap_set_remote feedback1
+	/usr/lib/dorfmap/dorfbus-write feedback1
 	) &
 	(
 	sleep 4
 	echo 0 > /tmp/feedback8/bin1
-	dorfmap_set_remote feedback8
+	/usr/lib/dorfmap/dorfbus-write feedback8
 	) &
 	(
 	echo ' bell       ' | dorfmap_charwrite 0 16
@@ -51,7 +51,7 @@ elif [ "${line}" = openannounce ]; then
 	curl -s -m 4 -d action=shortcut -d shortcut=unshutdown http://dorfmap/action
 
 	echo 1 > /tmp/feedback8/bin8
-	dorfmap_set_remote feedback8
+	/usr/lib/dorfmap/dorfbus-write feedback8
 
 	if [ -z "$RANDOM" ]; then
 		RANDOM=$(dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -c"1-5")
@@ -71,7 +71,7 @@ elif [ "${line}" = closedannounce ]; then
 	echo closed > /srv/www/doorstatus
 
 	echo 0 > /tmp/feedback8/bin8
-	dorfmap_set_remote feedback8
+	/usr/lib/dorfmap/dorfbus-write feedback8
 
 	if [ -z "$RANDOM" ]; then
 		RANDOM=$(dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -c"1-5")

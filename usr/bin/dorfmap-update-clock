@@ -1,0 +1,27 @@
+#!/bin/sh
+
+if [ -e /tmp/is_shutdown ]; then
+    date +'_ %H.%M_ %H%M' | /usr/lib/dorfmap/dorfbus-write-char 0 16
+    echo '   .   ' | /usr/lib/dorfmap/dorfbus-write-char 0 17
+else
+    if [ "$(cat /srv/www/doorstatus)" = open ]; then
+        date +'P %H.%MP %H%M' | /usr/lib/dorfmap/dorfbus-write-char 0 16
+        date +'%H %M %H %M ' | /usr/lib/dorfmap/dorfbus-write-char 0 17
+    else
+        date +'%H . %M%H  %M' | /usr/lib/dorfmap/dorfbus-write-char 0 16
+        date +'%H %M %H %M ' | /usr/lib/dorfmap/dorfbus-write-char 0 17
+    fi
+fi
+
+(
+for i in 0 10 20 30 40 50; do
+    PWR=$(printf "%5.f " "$(cat /srv/www/flukso/30)")
+    if [ "${PWR}" -le 0 ]; then
+        PWR=' ----  ----             '
+    fi
+
+    echo "${PWR}" | /usr/lib/dorfmap/dorfbus-write-char 0 19 || exit 0
+
+    sleep 10
+done
+) &

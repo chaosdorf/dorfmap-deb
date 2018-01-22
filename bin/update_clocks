@@ -1,5 +1,0 @@
-#!/bin/sh
-
-# empty for now
-
-exec update_clocks_legacy

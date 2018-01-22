@@ -1,7 +1,7 @@
 [Unit]
-Description=Dorfmap GPIO and /tmp setup
+Description=Doorbell state setup
 Requires=network.target
-After=dorfmap-init.service
+After=init-dorfmap.service
 
 [Service]
 Type=oneshot

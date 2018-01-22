@@ -110,7 +110,7 @@ while (1) {
 				my $modified = ( stat($device) )[9];
 				if ( ( $now - $modified ) > $delay ) {
 					spew( $device, "0\n" );
-					system( 'dorfmap_set_remote',
+					system( '/usr/lib/dorfmap/dorfbus-write',
 						( split( /\//, $device ) )[2] );
 				}
 			}
