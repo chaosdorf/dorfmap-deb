@@ -1,0 +1,4 @@
+#!/bin/sh
+
+wget -O /tmp/cccd.ics --quiet 'https://chaosdorf.de/~derf/cccd.ics' || true
+chown www-data:www-data /tmp/cccd.ics

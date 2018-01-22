@@ -13,28 +13,6 @@ our $VERSION = '0.01';
 my $ua = LWP::UserAgent->new;
 $ua->timeout(2);
 
-my $re_host = qr{
-	^
-	(?<host> \S+ )
-}x;
-
-my $re_pingdev = qr{
-	^
-	(?<host> \S+ )
-	.* type = (?: phone | printer | server | wifi )
-}x;
-
-my $re_pingdev_section = qr{
-	^
-	\[
-	.* type = (?: phone | printer | server | wifi )
-}x;
-
-my $re_other_section = qr{
-	^
-	\[
-}x;
-
 my $re_autooff = qr{
 	^
 	(?: \S+ ) \s+ # device
@@ -69,38 +47,14 @@ sub spew {
 	return write_file( $file, { err_mode => 'quiet' }, $value );
 }
 
-sub ping_host {
-	my ($host) = @_;
-
-	system( qw( ping -n -c 1 -W 1 ), $host );
-
-	write_file( "/srv/www/${host}.ping", ( $? == 0 ) ? '1' : '0' );
-
-	return;
-}
-
 while (1) {
 
 	my %autooff;
 
 	my $raw_coordinates = read_file('coordinates');
 	$raw_coordinates =~ s{\\\n}{}gs;
-	my $in_pingdev_section = 0;
 
 	for my $line ( split( /\n/, $raw_coordinates ) ) {
-		if ( $line =~ $re_pingdev_section ) {
-			$in_pingdev_section = 1;
-		}
-		elsif ( $line =~ $re_other_section ) {
-			$in_pingdev_section = 0;
-		}
-		elsif ( $line =~ $re_pingdev ) {
-			ping_host( $+{host} );
-		}
-		elsif ( $in_pingdev_section and $line =~ $re_host ) {
-			ping_host( $+{host} );
-		}
-
 		if ( $line =~ $re_autooff ) {
 			my $device = '/tmp/' . $+{path};
 			my $delay  = $+{duration} * $units{ $+{unit} };

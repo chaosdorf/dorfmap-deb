@@ -133,3 +133,5 @@ if [ -e /boot/dorfmap-blinkencontrol.db ]; then
 	cat /boot/dorfmap-blinkencontrol.db > /srv/www/dorfmap/blinkencontrol.db
 	chown www-data:www-data /srv/www/dorfmap/blinkencontrol.db
 fi
+
+/usr/lib/dorfmap/retrieve-events

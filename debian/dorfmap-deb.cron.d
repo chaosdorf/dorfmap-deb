@@ -7,14 +7,7 @@ MAILTO=root
 # events
   58   *   *   *   *   www-data  wget -O /tmp/cccd.ics --quiet 'https://chaosdorf.de/~derf/cccd.ics'
 
-# monitoring
-  *    *   *   *   *   www-data  publish-prometheus
-  */4  *   *   *   *   www-data  nice gather-hosts
-  */4  *   *   *   *   www-data  nice gather-temperatures
-  59   *   *   *   *   www-data  nice gather-doorcount
-
 # dorfmap
-  *    *   *   *   *   www-data  dorfmap-update-roomstatus
   *    *   *   *   *   www-data  dorfmap-update-clock
   */6  *   *   *   *   www-data  nice dorfmap-control-lights
 
