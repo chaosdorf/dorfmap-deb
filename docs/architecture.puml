@@ -12,8 +12,8 @@ package "Host: feedback" {
     [NGINX]
     note bottom of "NGINX"
     Port 80
+    - Static assets for frontend
     - Reverse proxy to backends
-    - Deliver static assets
     end note
 
     [Hypnotoad]
@@ -55,8 +55,10 @@ package "Host: dorfmapserver" {
     [Primus]
     note bottom of "Primus"
     Port 3001
-    - Delivers JavaScript frontend
-    - ???
+    - WebSockets server
+    - Realtime updates for web clients
+    - Proxied to avoid CORS problems
+    - Optional component
     end note
 }
 
