@@ -6,37 +6,30 @@ note right of "Web frontend"
 - Live Updates
 end note
 
-package "Host: Feedback" {
+package "Host: feedback" {
     [Cron]
 
     [NGINX]
     note bottom of "NGINX"
     Port 80
-    - Delivers static assets
-    - Reverse proxy applications
+    - Reverse proxy to backends
+    - Deliver static assets
     end note
 
     [Hypnotoad]
     note bottom of "Hypnotoad"
     Port 8081
-    - API Server
-    - Rate Limiting
+    - API server
+    - Rate limiting
     - Anti-Idiot-Layer
-    - Device State Management
-    end note
-
-    [Primus]
-    note bottom of "Primus"
-    Port 3001
-    - Delivers JavaScript frontend
-    - ???
+    - Device state management
     end note
 
     [Backend]
     note bottom of "Backend"
     Shellscripts
     - Door status
-    - dorfbus clock
+    - Dorfbus clock
     - Device switching
     - Automatic light control
     - Blinkencontrol
@@ -54,14 +47,29 @@ package "Host: Feedback" {
     [/tmp]
 }
 
+package "Host: door" {
+    [Door server]
+}
+
+package "Host: dorfmapserver" {
+    [Primus]
+    note bottom of "Primus"
+    Port 3001
+    - Delivers JavaScript frontend
+    - ???
+    end note
+}
+
 [Web frontend] <--> [NGINX] : HTTP
 [NGINX] <-left-> [Primus] : HTTP
 [NGINX] <-right-> [Hypnotoad] : HTTP
 
 [Cron] --> [Backend] : Scheduled actions
 [Hypnotoad] --> [/tmp] : Read/Write state
-[Hypnotoad] --> [Backend] : Apply state to dorfbus
+[Hypnotoad] --> [Backend] : Apply state to world
+[Backend] --> [Door server] : Get/set door status
 [Backend] --> [/tmp] : Read desired state
 [Backend] --> [Bus driver] : Send commands
+[Backend] <-- [Door server] : Ring bell
 [Bus driver] --> [GPIOs] : Bitbang commands
 @enduml

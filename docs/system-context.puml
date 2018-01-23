@@ -5,9 +5,13 @@ package "User Device" {
     [Web frontend]
 }
 
-package "Host: Feedback" {
+package "Host: feedback" {
     [Backend]
     [GPIOs]
+}
+
+package "Host: door" {
+    [Door server]
 }
 
 package "Eletrical Wiring" {
@@ -17,6 +21,8 @@ package "Eletrical Wiring" {
 
 [Hacker] .right.> [Web frontend] : Click
 [Web frontend] <-right-> [Backend] : HTTP
+[Backend] --> [Door server] : Get/set door status
+[Backend] <-- [Door server] : Ring bell
 [Backend] -right-> [GPIOs] : Bitbanging
 [GPIOs] --> [Dorfbus] : Eletrical signals
 [Dorfbus] --> [Device] : Switch device e.g. avrshift
