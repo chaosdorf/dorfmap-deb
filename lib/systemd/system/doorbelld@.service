@@ -1,0 +1,11 @@
+[Unit]
+Description=doorbell service
+Requires=doorbelld.socket
+
+[Service]
+User=www-data
+Type=simple
+ExecStart=/usr/bin/doorbelld
+StandardInput=socket
+StandardError=journal
+TimeoutStopSec=5
