@@ -15,5 +15,23 @@ Vagrant.configure("2") do |config|
 
      # dorfmap dependencies
      apt-get -y install nginx
+
+     # dorfmap debugging
+     ln -s /vagrant/dorfmap-debug /usr/bin/mpv
+     ln -s /vagrant/dorfmap-debug /usr/bin/mosquitto_pub
+     ln -s /vagrant/dorfmap-debug /usr/bin/si2c-bitwrite
+     ln -s /vagrant/dorfmap-debug /usr/bin/si2c-bytewrite
+     ln -s /vagrant/dorfmap-debug /usr/bin/si2c-charwrite
+     mkdir /var/log/dorfmap
+     touch /var/log/dorfmap/mpv
+     touch /var/log/dorfmap/mosquitto_pub
+     touch /var/log/dorfmap/si2c-bitwrite
+     touch /var/log/dorfmap/si2c-bytewrite
+     touch /var/log/dorfmap/si2c-charwrite
+     chmod 777 /var/log/dorfmap/mpv
+     chmod 777 /var/log/dorfmap/mosquitto_pub
+     chmod 777 /var/log/dorfmap/si2c-bitwrite
+     chmod 777 /var/log/dorfmap/si2c-bytewrite
+     chmod 777 /var/log/dorfmap/si2c-charwrite
   SHELL
 end
