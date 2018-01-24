@@ -1,5 +1,5 @@
 [Unit]
-Description=Dorfmap GPIO and /tmp setup
+Description=Dorfmap /tmp setup
 After=network.target
 
 [Service]

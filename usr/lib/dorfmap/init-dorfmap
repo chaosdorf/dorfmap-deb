@@ -1,16 +1,7 @@
 #!/bin/sh -e
 
-gpioexport() {
-	echo "$1" > /sys/class/gpio/export
-	echo out > /sys/class/gpio/gpio"$1"/direction
-	chmod 666 /sys/class/gpio/gpio"$1"/value
-}
-
 touch /tmp/automatic_logo /tmp/automatic_outdoor /tmp/is_shutdown
 chown www-data:www-data /tmp/automatic_logo /tmp/automatic_outdoor /tmp/is_shutdown
-
-gpioexport 20
-gpioexport 21
 
 mkdir /tmp/dorfmap-err
 chmod 777 /tmp/dorfmap-err
