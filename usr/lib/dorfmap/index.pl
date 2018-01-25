@@ -326,7 +326,7 @@ sub unshutdown {
 #}}}
 
 sub load_coordinates {    #{{{
-	my $ccontent = slurp('coordinates');
+	my $ccontent = slurp('/etc/dorfmap/coordinates');
 	$ccontent =~ s{\\\n}{}gs;
 	my @lines = split( /\n/, $ccontent );
 

@@ -51,7 +51,7 @@ while (1) {
 
 	my %autooff;
 
-	my $raw_coordinates = read_file('coordinates');
+	my $raw_coordinates = read_file('/etc/dorfmap/coordinates');
 	$raw_coordinates =~ s{\\\n}{}gs;
 
 	for my $line ( split( /\n/, $raw_coordinates ) ) {
