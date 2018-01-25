@@ -3,4 +3,5 @@ usr/sbin/* usr/sbin/
 usr/lib/systemd/system/* usr/lib/systemd/system/
 usr/lib/dorfmap/* usr/lib/dorfmap/
 etc/dorfmap/* etc/dorfmap/
+etc/nginx/sites-available/* etc/nginx/sites-available/
 usr/share/munin/plugins/* usr/share/munin/plugins/
