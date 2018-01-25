@@ -3,101 +3,101 @@
 touch /tmp/automatic_logo /tmp/automatic_outdoor /tmp/is_shutdown
 chown www-data:www-data /tmp/automatic_logo /tmp/automatic_outdoor /tmp/is_shutdown
 
-mkdir /tmp/dorfmap-err
+mkdir -p /tmp/dorfmap-err
 chmod 777 /tmp/dorfmap-err
 
-mkdir /tmp/donationprint1
+mkdir -p /tmp/donationprint1
 chmod 777 /tmp/donationprint1
 for i in $(seq 1 13); do
 	echo 0 > /tmp/donationprint1/$i
 	chmod 666 /tmp/donationprint1/$i
 done
 
-mkdir /tmp/donationprint2
+mkdir -p /tmp/donationprint2
 chmod 777 /tmp/donationprint2
 for i in commands; do
 	echo 0 > /tmp/donationprint2/$i
 	chmod 666 /tmp/donationprint2/$i
 done
 
-mkdir /tmp/feedback1
+mkdir -p /tmp/feedback1
 chmod 777 /tmp/feedback1
 for i in $(seq 1 13); do
 	echo 0 > /tmp/feedback1/$i
 	chmod 666 /tmp/feedback1/$i
 done
 
-mkdir /tmp/feedback3
+mkdir -p /tmp/feedback3
 chmod 777 /tmp/feedback3
 for i in $(seq 1 12); do
 	echo 0 > /tmp/feedback3/$i
 	chmod 666 /tmp/feedback3/$i
 done
 
-mkdir /tmp/feedback4
+mkdir -p /tmp/feedback4
 chmod 777 /tmp/feedback4
 for i in commands; do
 	echo 0 > /tmp/feedback4/$i
 	chmod 666 /tmp/feedback4/$i
 done
 
-mkdir /tmp/feedback5
+mkdir -p /tmp/feedback5
 chmod 777 /tmp/feedback5
 for i in $(seq 1 8); do
 	echo 0 > /tmp/feedback5/$i
 	chmod 666 /tmp/feedback5/$i
 done
 
-mkdir /tmp/feedback6
+mkdir -p /tmp/feedback6
 chmod 777 /tmp/feedback6
 for i in bin0 bin1 bin3 bin5 bin6 bin7 pwm0 pwm1 pwm2; do
 	echo 0 > /tmp/feedback6/$i
 	chmod 666 /tmp/feedback6/$i
 done
 
-mkdir /tmp/feedback7
+mkdir -p /tmp/feedback7
 chmod 777 /tmp/feedback7
 for i in bin0 bin1 bin2 bin3 bin4 bin5 bin6 bin7 bin8 pwm0 pwm1 pwm2 pwm3; do
 	echo 0 > /tmp/feedback7/$i
 	chmod 666 /tmp/feedback7/$i
 done
 
-mkdir /tmp/feedback8
+mkdir -p /tmp/feedback8
 chmod 777 /tmp/feedback8
 for i in bin0 bin1 bin2 bin3 bin4 bin5 bin6 bin7 bin8 pwm0 pwm1 pwm2 pwm3; do
 	echo 0 > /tmp/feedback8/$i
 	chmod 666 /tmp/feedback8/$i
 done
 
-mkdir /tmp/feedback9
+mkdir -p /tmp/feedback9
 chmod 777 /tmp/feedback9
 for i in bin0 bin1 bin2 bin3 bin4 bin5 bin6 bin7 bin8 pwm0 pwm1 pwm2 pwm3; do
 	echo 0 > /tmp/feedback9/$i
 	chmod 666 /tmp/feedback9/$i
 done
 
-mkdir /tmp/feedback10
+mkdir -p /tmp/feedback10
 chmod 777 /tmp/feedback10
 for i in bin0 bin1 bin2 bin3 bin4 bin5 bin6 pwm0 pwm1 pwm2 pwm3; do
 	echo 0 > /tmp/feedback10/$i
 	chmod 666 /tmp/feedback10/$i
 done
 
-mkdir /tmp/feedback11
+mkdir -p /tmp/feedback11
 chmod 777 /tmp/feedback11
 for i in bin0 bin1 bin2 bin3 bin4 bin5 bin6 bin7 bin8 pwm0 pwm1 pwm2 pwm3; do
 	echo 0 > /tmp/feedback11/$i
 	chmod 666 /tmp/feedback11/$i
 done
 
-mkdir /tmp/helios1
+mkdir -p /tmp/helios1
 chmod 777 /tmp/helios1
 for i in 0 1 2 3; do
 	echo 0 > /tmp/helios1/$i
 	chmod 666 /tmp/helios1/$i
 done
 
-mkdir /tmp/beamer1
+mkdir -p /tmp/beamer1
 chmod 777 /tmp/beamer1
 echo 0 > /tmp/beamer1/power
 chmod 666 /tmp/beamer1/power
