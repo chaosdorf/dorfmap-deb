@@ -1,0 +1,10 @@
+[Unit]
+Description=Ring the bell
+After=network.target
+
+[Socket]
+ListenStream=1337
+Accept=true
+
+[Install]
+WantedBy=multi-user.target

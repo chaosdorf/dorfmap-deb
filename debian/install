@@ -10,6 +10,8 @@ etc/systemd/mqttpushd.service etc/systemd/system/
 etc/systemd/mqttsubd.service etc/systemd/system/
 etc/systemd/snmpgetd.service etc/systemd/system/
 etc/systemd/ro-setup.service etc/systemd/system/
+etc/systemd/ring_bell.service etc/systemd/system/
+etc/systemd/ring_bell.socket etc/systemd/system/
 sbin/* usr/sbin/
 munin/* usr/share/munin/plugins/
 lib/* usr/lib/dorfmap/

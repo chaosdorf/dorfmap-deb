@@ -1,0 +1,10 @@
+[Unit]
+Description=Rings the bell
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/ring_bell
+StandardInput=socket
+StandardOutput=socket
+User=www-data
