@@ -1,6 +1,7 @@
 [Unit]
 Description=Dorfmap bgdata
 Requires=network.target
+Requires=dorfmap-init.service
 After=dorfmap-init.service
 
 [Service]
