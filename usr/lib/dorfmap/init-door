@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-if [ "$(curl -s -m 4 http://door/status)" = open ]; then
-	echo openannounce | doorbelld
-else
-	echo closedannounce | doorbelld
-fi

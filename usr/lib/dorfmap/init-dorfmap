@@ -126,3 +126,4 @@ if [ -e /boot/dorfmap-blinkencontrol.db ]; then
 fi
 
 /usr/lib/dorfmap/retrieve-events
+/usr/lib/dorfmap/announce-door-status
