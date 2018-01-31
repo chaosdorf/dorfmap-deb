@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ "$(cat /etc/dorfmap/publish-roomstatus 2>/dev/null)" = "off" ]; then
+    exit 0
+fi
+
 IS_EVENT=0
 if is_event > /dev/null 2>&1; then
 	IS_EVENT=1

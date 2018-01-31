@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ "$(cat /etc/dorfmap/dorfbus-clock 2>/dev/null)" = "off" ]; then
+    exit 0
+fi
+
 if [ -e /tmp/is_shutdown ]; then
     date +'_ %H.%M_ %H%M' | /usr/lib/dorfmap/dorfbus-write-char 0 16
     echo '   .   ' | /usr/lib/dorfmap/dorfbus-write-char 0 17

@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ "$(cat /etc/dorfmap/automatic-lights 2>/dev/null)" = "off" ]; then
+    exit 0
+fi
+
 logo_on() {
 	rm -f /tmp/logo_is_off
 	if [ -e /tmp/logo_is_on ]; then
