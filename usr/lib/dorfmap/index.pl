@@ -1552,6 +1552,7 @@ app->config(
 	},
 );
 app->defaults( layout => 'default' );
+push @{app->static->paths} => '/srv/www/dorfmap/public';
 
 #plugin NYTProf => {
 #	nytprof => {
