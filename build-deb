@@ -1,0 +1,3 @@
+#!/bin/sh
+
+gbp buildpackage -us -uc --git-ignore-new
