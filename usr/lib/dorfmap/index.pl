@@ -117,13 +117,13 @@ sub set_remote {
 		}
 	}
 	else {
-		system( 'dorfmap_set_remote', $bus, $device );
+		system( '/usr/lib/dorfmap/dorfbus-write', $bus, $device );
 	}
 }
 
 sub set_buffered_remotes {
 	for my $bus (@remote_buffer) {
-		system( 'dorfmap_set_remote', $bus );
+		system( '/usr/lib/dorfmap/dorfbus-write', $bus );
 	}
 	@remote_buffer = ();
 }
@@ -290,8 +290,8 @@ sub do_shutdown {
 	}
 
 	set_buffered_remotes();
-	system('blinkencontrol-donationprint');
-	system('blinkencontrol-feedback');
+	system('/usr/lib/dorfmap/dorfbus-write', 'donationprint2');
+	system('/usr/lib/dorfmap/dorfbus-write', 'feedback4');
 
 	if ( $? != 0 ) {
 		push( @errors,
@@ -1186,10 +1186,10 @@ post '/ajax/blinkencontrol' => sub {
 	spew( "${controlpath}/commands", $ctext );
 
 	if ( $controlpath =~ m{donationprint}o ) {
-		system('blinkencontrol-donationprint');
+		system('/usr/lib/dorfmap/dorfbus-write', 'donationprint2');
 	}
 	elsif ( $controlpath =~ m{feedback}o ) {
-		system('blinkencontrol-feedback');
+		system('/usr/lib/dorfmap/dorfbus-write', 'feedback4');
 	}
 
 	$self->render( json => json_blinkencontrol($device) );
