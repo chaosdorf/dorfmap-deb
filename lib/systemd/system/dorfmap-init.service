@@ -1,0 +1,11 @@
+[Unit]
+Description=Dorfmap /tmp setup
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/dorfmap-init
+User=root
+
+[Install]
+WantedBy=multi-user.target

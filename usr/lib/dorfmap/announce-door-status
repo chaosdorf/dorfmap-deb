@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+if [ "$(curl -s -m 4 http://door/status)" = open ]; then
+    echo openannounce | nc -w 4 localhost 1337
+else
+    echo closedannounce | nc -w 4 localhost 1337
+fi

@@ -1,0 +1,11 @@
+[Unit]
+Description=Dorfmap Bootup sound
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/dorfmap-bootsound
+User=nobody
+
+[Install]
+WantedBy=multi-user.target

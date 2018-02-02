@@ -1,9 +1,0 @@
-#!/bin/sh
-
-cat /sys/class/thermal/thermal_zone0/temp > /srv/www/temperature
-
-if [ -e /tmp/is_shutdown ]; then
-	echo 1 > /srv/www/is_shutdown
-else
-	echo 0 > /srv/www/is_shutdown
-fi

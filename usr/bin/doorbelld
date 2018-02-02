@@ -1,0 +1,103 @@
+#!/bin/sh
+
+export PATH="/usr/local/bin:$PATH"
+
+read line;
+
+if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
+
+	echo 1 > /tmp/feedback1/13
+	echo 1 > /tmp/feedback8/bin1
+	/usr/lib/dorfmap/dorfbus-write feedback1
+	/usr/lib/dorfmap/dorfbus-write feedback8
+
+	(
+	sleep 12
+	echo 0 > /tmp/feedback1/13
+	/usr/lib/dorfmap/dorfbus-write feedback1
+	) &
+	(
+	sleep 4
+	echo 0 > /tmp/feedback8/bin1
+	/usr/lib/dorfmap/dorfbus-write feedback8
+	) &
+	(
+	echo ' bell       ' | dorfmap_charwrite 0 16
+	) &
+
+	if [ -z "$RANDOM" ]; then
+		RANDOM=$(dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -c"1-5")
+	fi
+
+	case $(( RANDOM % 8 )) in
+		0) BFILE=doorbell1.wav ;;
+		1) BFILE=doorbell2.m4a ;;
+		2) BFILE=doorbell3.ogg ;;
+		3) BFILE=doorbell4.mp3 ;;
+		4) BFILE=doorbell5.m4a ;;
+		5) BFILE=doorbell6.wav ;;
+		6) BFILE=doorbell7.ogg ;;
+		7) BFILE=doorbell8.ogg ;;
+	esac
+
+	mosquitto_pub -h mqttserver -t 'space/bell' -m ringdingding &
+
+	flock -n /tmp/ringbellmp.lock mpv --ao pulse --pulse-host=pulse /usr/local/share/"${BFILE}" < /dev/null > /dev/null 2> /dev/null || exit 1
+
+elif [ "${line}" = openannounce ]; then
+
+	echo open > /srv/www/doorstatus
+
+	curl -s -m 4 -d action=shortcut -d shortcut=unshutdown http://dorfmap/action
+
+	echo 1 > /tmp/feedback8/bin8
+	/usr/lib/dorfmap/dorfbus-write feedback8
+
+	if [ -z "$RANDOM" ]; then
+		RANDOM=$(dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -c"1-5")
+	fi
+
+	case $(( RANDOM % 2 )) in
+		0) AFILE=public.wav ;;
+		1) AFILE=public2.wav ;;
+	esac
+
+	mosquitto_pub -h mqttserver -r -t 'door/status' -m open &
+
+	mpv --volume 100 --ao pulse --pulse-host=pulse /usr/local/share/"${AFILE}" < /dev/null > /dev/null 2> /dev/null
+
+elif [ "${line}" = closedannounce ]; then
+
+	echo closed > /srv/www/doorstatus
+
+	echo 0 > /tmp/feedback8/bin8
+	/usr/lib/dorfmap/dorfbus-write feedback8
+
+	if [ -z "$RANDOM" ]; then
+		RANDOM=$(dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -c"1-5")
+	fi
+
+	case $(( RANDOM % 2 )) in
+		0) AFILE=private.wav ;;
+		1) AFILE=private2.wav ;;
+	esac
+
+	mosquitto_pub -h mqttserver -r -t 'door/status' -m closed &
+
+	mpv --volume 100 --ao pulse --pulse-host=pulse /usr/local/share/"${AFILE}" < /dev/null > /dev/null 2> /dev/null
+
+elif [ "${line}" = donationprint_doorstatus ]; then
+
+	curl -s -m 4 -d action=shortcut -d shortcut=makeprivate http://dorfmap/action
+
+elif [ "${line}" = donationprint_raumstatus ]; then
+
+	if [ -e /tmp/is_shutdown ]; then
+		curl -s -m 4 -d action=shortcut -d shortcut=unshutdown http://dorfmap/action
+	else
+		curl -s -m 4 -d action=shortcut -d shortcut=shutdown http://dorfmap/action
+	fi
+
+fi
+
+exit 0

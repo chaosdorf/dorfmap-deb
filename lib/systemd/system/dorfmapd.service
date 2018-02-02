@@ -1,0 +1,15 @@
+[Unit]
+Description=Dorfmap bgdata
+Requires=network.target
+Requires=dorfmap-init.service
+After=dorfmap-init.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/dorfmapd
+User=www-data
+WorkingDirectory=/srv/www/dorfmap
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

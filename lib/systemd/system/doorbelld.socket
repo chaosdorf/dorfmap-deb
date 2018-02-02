@@ -1,0 +1,9 @@
+[Unit]
+Description=doorbell socket
+
+[Socket]
+ListenStream=0.0.0.0:1337
+Accept=yes
+
+[Install]
+WantedBy=sockets.target

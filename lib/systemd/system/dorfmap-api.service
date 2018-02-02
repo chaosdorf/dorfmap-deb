@@ -1,0 +1,19 @@
+[Unit]
+Description=Dorfmap Daemon
+Requires=network.target
+Requires=dorfmap-init.service
+After=dorfmap-init.service
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+PIDFile=/tmp/dorfmap-api.pid
+ExecStart=/usr/bin/hypnotoad /usr/lib/dorfmap/index.pl -f
+ExecStop=/usr/bin/hypnotoad -s /usr/lib/dorfmap/index.pl
+ExecReload=/usr/bin/hypnotoad /usr/lib/dorfmap/index.pl
+User=www-data
+Nice=-1
+WorkingDirectory=/srv/www/dorfmap
+
+[Install]
+WantedBy=multi-user.target

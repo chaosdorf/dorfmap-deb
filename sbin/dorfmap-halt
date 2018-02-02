@@ -1,7 +1,0 @@
-#!/bin/sh
-
-dorfmap-savedata
-
-sleep 2
-
-exec halt
