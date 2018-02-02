@@ -38,7 +38,7 @@ if [ -e /tmp/is_shutdown ]; then
 	rm -f /tmp/logo_is_on /tmp/logo_is_off
 else
 	if [ -e /tmp/automatic_outdoor ]; then
-		if is_sundown -d $(cat /etc/dorfmap/lights/outdoor); then
+		if /usr/lib/dorfmap/is_sundown -d $(cat /etc/dorfmap/lights/outdoor); then
 			echo 1 > /tmp/feedback10/bin3
 		else
 			echo 0 > /tmp/feedback10/bin3
@@ -47,7 +47,7 @@ else
 		echo 0 > /tmp/feedback10/bin3
 	fi
 	if [ -e /tmp/automatic_logo ]; then
-		if is_sundown -d $(cat /etc/dorfmap/lights/logo); then
+		if /usr/lib/dorfmap/is_sundown -d $(cat /etc/dorfmap/lights/logo); then
 			logo_on
 		else
 			logo_off
@@ -58,7 +58,7 @@ else
 fi
 
 if [ -e /tmp/automatic_schaufenster ]; then
-	if is_sundown -d $(cat /etc/dorfmap/lights/schaufenster); then
+	if /usr/lib/dorfmap/is_sundown -d $(cat /etc/dorfmap/lights/schaufenster); then
 		echo 1 > /tmp/feedback10/bin4
 	else
 		echo 0 > /tmp/feedback10/bin4
