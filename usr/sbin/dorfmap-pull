@@ -3,4 +3,4 @@
 rsync -aP /root/dorfmap/ /srv/www/dorfmap/
 cd /srv/www/dorfmap
 chown -R www-data:www-data .
-sudo -u www-data hypnotoad index.pl
+systemctl reload dorfmap-api
