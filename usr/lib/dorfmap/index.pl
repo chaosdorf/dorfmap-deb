@@ -515,7 +515,7 @@ sub device_status {
 	if ( ( $type ~~ [qw[phone printer server wifi]] )
 		and get_device($id) == -1 )
 	{
-		return slurp("/srv/www/${id}.ping") || 0;
+		return 0 + slurp("/srv/www/${id}.ping") || 0;
 	}
 
 	return get_device($id);
