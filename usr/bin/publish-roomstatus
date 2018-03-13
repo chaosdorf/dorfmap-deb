@@ -14,6 +14,7 @@ fi
 	cat /srv/www/doorstatus
 	cat /srv/www/is_shutdown
 	echo "${IS_EVENT}"
+	curl -s -m 4 -4 https://chaosdorf.de/clientip.php | head -n 1
 	curl -s -m 4 http://dorfmap/space_api.json
 
 ) | ssh raumstatus@extern.chaosdorf.de
