@@ -515,7 +515,7 @@ sub device_status {
 	if ( ( $type ~~ [qw[phone printer server wifi]] )
 		and get_device($id) == -1 )
 	{
-		return 0 + slurp("/srv/www/${id}.ping") || 0;
+		return 0 + (slurp("/srv/www/${id}.ping") || 0);
 	}
 
 	return get_device($id);
@@ -618,13 +618,14 @@ sub status_devices {
 sub status_info {
 	my $json = {};
 
-	if ( slurp('/srv/www/doorstatus') eq 'open' ) {
+	my $doorstatus = slurp('/srv/www/doorstatus') || '';
+	if ( $doorstatus eq 'open' ) {
 		$json->{hackspace} = 'public';
 	}
 	elsif ( -e $shutdownfile ) {
 		$json->{hackspace} = 'shutdown';
 	}
-	elsif ( slurp('/srv/www/doorstatus') eq 'closed' ) {
+	elsif ( $doorstatus eq 'closed' ) {
 		$json->{hackspace} = 'private';
 	}
 	else {
@@ -730,7 +731,7 @@ sub json_blinkencontrol {
 
 sub json_status {
 	my ( $id, $embed ) = @_;
-	
+
 	my $type = $coordinates->{$id}->{type} // q{};
 	my $name = $coordinates->{$id}->{name} // $id;
 
