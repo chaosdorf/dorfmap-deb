@@ -52,7 +52,7 @@ hackcenter_spots      700  180    0    0 feedback1/6 \
 hackcenter_roehre     600  180    0    0 feedback1/7 \
   type=light ratelimit=90 layer=caution watts=348  Putzlicht
 hackcenter_ws2812b    580   20    0    0 feedback1/8 \
-  type=light watts=5 default=1 Ossendorf-Chaosdorf
+  type=light watts=5 default=1 Chaosdorf-Ossendorf
 hackcenter_regal1     495   60    0    0 feedback5/1 \
   type=light watts=1     LED-Streifen Regal 1 (links)
 hackcenter_regal2     530   60    0    0 feedback5/3 \
