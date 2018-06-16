@@ -46,3 +46,8 @@ To build the package
     $ gbp buildpackage -us -uc
 
 When the build has finished, the package can be found at `/`.
+
+## Deployment
+
+    $ ./build-deb
+    $ fab deploy:0.02

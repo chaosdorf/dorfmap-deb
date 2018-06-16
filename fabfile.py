@@ -24,23 +24,6 @@ def etckeeper_commit(message):
 def etckeeper_done():
     run('etckeeper post-install')
 
-def update_configs():
-    for plugin in os.listdir('munin'):
-        if plugin != 'dorfmap_':
-            run('ln -fs /usr/share/munin/plugins/%s /etc/munin/plugins' % plugin)
-
-    for area in ['Hackcenter', 'Lounge', 'Nomspace', 'Schleuse', 'Werkstatt']:
-        run('ln -fs /usr/share/munin/plugins/dorfmap_ /etc/munin/plugins/dorfmap_%s' % area)
-
-    put('etc/inetd.conf', '/etc/inetd.conf')
-    for conf in ['dorfmap', 'feedback']:
-        put('nginx/%s' % conf, '/etc/nginx/sites-available/%s' % conf)
-        run('ln -fs ../sites-available/%s %s' % (conf, conf))
-
-def restart_daemons():
-    run("/etc/init.d/nginx reload")
-    run("/etc/init.d/munin-node restart")
-
 def deploy(version):
     pre_cmd()
     etckeeper_check()
@@ -48,8 +31,5 @@ def deploy(version):
     run("dpkg --install /root/dorfmap-deb_%s_all.deb" % version)
     run("rm /root/dorfmap-deb_%s_all.deb" % version)
 
-    update_configs()
-
     etckeeper_done()
     post_cmd()
-    restart_daemons()
