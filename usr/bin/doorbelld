@@ -42,7 +42,10 @@ if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 
 	mosquitto_pub -h mqttserver -t 'space/bell' -m ringdingding &
 
-	flock -n /tmp/ringbellmp.lock mpv --ao pulse --pulse-host=pulse /usr/local/share/"${BFILE}" < /dev/null > /dev/null 2> /dev/null || exit 1
+	flock -n /tmp/ringbellmp.lock mpv --ao pulse --pulse-host=pulse /usr/local/share/"${BFILE}" < /dev/null > /dev/null 2> /dev/null &
+
+	# work around systemd killing off children when main script exits
+	sleep 12
 
 elif [ "${line}" = openannounce ]; then
 
