@@ -501,7 +501,7 @@ sub device_actionlink {
 	given ($type) {
 		when ('blinkenlight') { $action = 'blinkencontrol' }
 		when ('charwrite')    { $action = $type }
-		when ( [qw[phone printer server wifi]] ) { $action = 'on' }
+		when ( [qw[phone printer server]] ) { $action = 'on' }
 		when ('light_au') { $action = 'toggle' }
 	}
 
@@ -512,7 +512,7 @@ sub device_status {
 	my ($id) = @_;
 	my $type = $coordinates->{$id}->{type};
 
-	if ( ( $type ~~ [qw[phone printer server wifi]] )
+	if ( ( $type ~~ [qw[phone printer server]] )
 		and get_device($id) == -1 )
 	{
 		return 0 + (slurp("/srv/www/${id}.ping") || 0);
@@ -543,7 +543,7 @@ sub device_image {
 		$prefix = $id;
 	}
 
-	if ( $type ~~ [qw[phone printer server wifi]] ) {
+	if ( $type ~~ [qw[phone printer server]] ) {
 
 		# unknown => off
 		$suffix = '_off';
@@ -790,7 +790,7 @@ sub status_text {
 		return $coordinates->{$location}->{text} . '<br/>'
 		  . auto_text($location);
 	}
-	if ( $type eq 'server' or $type eq 'wifi' ) {
+	if ( $type eq 'server' ) {
 		return $name;
 	}
 	return $coordinates->{$location}->{text};

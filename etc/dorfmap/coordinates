@@ -136,15 +136,3 @@ helios               1232  370    0    0 none \
   type=server area=Serverraum dorfmap=amp
 selene               1232  410    0    0 none \
   type=server area=Serverraum
-
-
-ap-hackcenter         420  210    0    0 none \
-  type=wifi
-ap-hackcenter2        420  178    0    0 none \
-  type=wifi
-ap-hinterzimmer       1428  120    0    0 none \
-  type=wifi
-ap-nomspace           1130  268    0    0 none \
-  type=wifi
-ap-werkstatt          1752  130    0    0 none \
-  type=wifi
