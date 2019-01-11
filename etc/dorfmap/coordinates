@@ -43,6 +43,8 @@ hackcenter_3spot      580  125    0    0 feedback1/12 \
   type=light watts=105      Hackcenter Spiegelsäule
 hackcenter_w          686  280    0    0 feedback1/4 \
   type=light ratelimit=5 watts=20       Tischreihe (Spots)
+hackcenter_tcom       540  350    0    0 feedback9/bin8 \
+  type=light watts=10 inverted=1 default=1 RGB-Magenta
 hackcenter_blau       620  350    0    0 feedback9/bin6 \
   type=light ratelimit=1 watts=24 conflicts=hackcenter_weiss psu=hackcenter_psudecke  LED-Streifen blau
 hackcenter_weiss      580  350    0    0 feedback9/bin4 \
