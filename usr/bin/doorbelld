@@ -6,6 +6,7 @@ read line;
 
 if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 
+	echo 1 > /tmp/feedback1/3
 	echo 1 > /tmp/feedback1/13
 	echo 1 > /tmp/feedback8/bin1
 	/usr/lib/dorfmap/dorfbus-write feedback1
@@ -13,6 +14,7 @@ if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 
 	(
 	sleep 12
+	echo 0 > /tmp/feedback1/3
 	echo 0 > /tmp/feedback1/13
 	/usr/lib/dorfmap/dorfbus-write feedback1
 	) &
