@@ -31,7 +31,7 @@ if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 		RANDOM=$(dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -c"1-5")
 	fi
 
-	case $(( RANDOM % 8 )) in
+	case $(( RANDOM % 10 )) in
 		0) BFILE=doorbell1.wav ;;
 		1) BFILE=doorbell2.m4a ;;
 		2) BFILE=doorbell3.ogg ;;
@@ -40,6 +40,8 @@ if [ "${line}" = "$(cat /etc/dorfmap/pw.bell)" ]; then
 		5) BFILE=doorbell6.wav ;;
 		6) BFILE=doorbell7.ogg ;;
 		7) BFILE=doorbell8.ogg ;;
+		8) BFILE=doorbell9.flac ;;
+		9) BFILE=doorbell10.ogg ;;
 	esac
 
 	mosquitto_pub -h mqttserver -t 'space/bell' -m ringdingding &
